@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CifraVerse</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #111318;
+      color: white;
+    }
+
+    header {
+      background: #171a21;
+      padding: 20px;
+      border-bottom: 1px solid #292d36;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      color: #4ade80;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 30px 20px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 40px 10px;
+    }
+
+    .hero h1 {
+      font-size: 38px;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      color: #aeb4c0;
+      margin-bottom: 25px;
+    }
+
+    .search {
+      display: flex;
+      max-width: 650px;
+      margin: auto;
+    }
+
+    .search input {
+      flex: 1;
+      padding: 16px;
+      border: none;
+      border-radius: 8px 0 0 8px;
+      font-size: 16px;
+    }
+
+    .search button {
+      padding: 16px 22px;
+      border: none;
+      background: #4ade80;
+      color: #07110a;
+      font-weight: bold;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .card {
+      background: #191d25;
+      border: 1px solid #292d36;
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .card h2 {
+      margin-bottom: 10px;
+    }
+
+    .song {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid #292d36;
+    }
+
+    .song:last-child {
+      border-bottom: none;
+    }
+
+    .artist {
+      color: #9da4b0;
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    .button {
+      background: #4ade80;
+      color: #07110a;
+      padding: 8px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    footer {
+      text-align: center;
+      color: #777;
+      padding: 40px 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">🎵 CifraVerse</div>
+  </header>
+
+  <main class="container">
+
+    <section class="hero">
+      <h1>Encontre sua cifra</h1>
+      <p>Aprenda suas músicas favoritas e toque com facilidade.</p>
+
+      <div class="search">
+        <input type="text" placeholder="Digite o nome da música ou artista">
+        <button>Buscar</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>🎸 Cifras populares</h2>
+
+      <div class="song">
+        <div>
+          <strong>Exemplo de Música</strong>
+          <div class="artist">Artista</div>
+        </div>
+
+        <a href="#" class="button">Ver cifra</a>
+      </div>
+
+      <div class="song">
+        <div>
+          <strong>Outra Música</strong>
+          <div class="artist">Outro Artista</div>
+        </div>
+
+        <a href="#" class="button">Ver cifra</a>
+      </div>
+
+      <div class="song">
+        <div>
+          <strong>Minha Música</strong>
+          <div class="artist">CifraVerse</div>
+        </div>
+
+        <a href="#" class="button">Ver cifra</a>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer>
+    © 2026 CifraVerse — Seu espaço para aprender música.
+  </footer>
+
+</body>
+</html>
