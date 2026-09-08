@@ -1,11 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
   <title>CifraVerse - Cadastro</title>
 
+
   <style>
+
     * {
       box-sizing: border-box;
     }
@@ -18,22 +27,13 @@
     }
 
     .container {
-      max-width: 700px;
+      max-width: 800px;
       margin: auto;
       padding: 25px 20px;
     }
 
     h1 {
       color: #4ade80;
-    }
-
-    .aviso {
-      background: #191d25;
-      border: 1px solid #292d36;
-      padding: 15px;
-      border-radius: 10px;
-      color: #bbb;
-      line-height: 1.5;
     }
 
     label {
@@ -47,228 +47,348 @@
     textarea,
     select {
       width: 100%;
-      padding: 13px;
-      border: none;
+      padding: 14px;
       border-radius: 8px;
+      border: 1px solid #292d36;
+      background: #191d25;
+      color: white;
       font-size: 16px;
     }
 
     textarea {
-      min-height: 180px;
+      min-height: 300px;
       resize: vertical;
+      font-family: monospace;
+      line-height: 1.6;
     }
 
     button {
-      width: 100%;
       margin-top: 25px;
-      padding: 15px;
+      padding: 15px 20px;
       border: none;
       border-radius: 8px;
       background: #4ade80;
       color: #07110a;
       font-weight: bold;
       font-size: 16px;
-    }
-
-    .resultado {
-      margin-top: 20px;
-      background: #191d25;
-      padding: 15px;
-      border-radius: 10px;
-      white-space: pre-wrap;
-      word-break: break-word;
+      width: 100%;
     }
 
     .voltar {
-      display: inline-block;
-      margin-top: 20px;
       color: #4ade80;
       text-decoration: none;
     }
+
+    .mensagem {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 8px;
+      background: #191d25;
+    }
+
+    .exemplo {
+      color: #9da4b0;
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+
   </style>
+
 </head>
+
 
 <body>
 
+
 <div class="container">
 
-  <h1>🎵 CifraVerse</h1>
+  <a
+    class="voltar"
+    href="index.html"
+  >
+    ← Voltar para o CifraVerse
+  </a>
 
-  <h2>Cadastro de música</h2>
 
-  <div class="aviso">
-    Este painel gera os dados da música para você cadastrar no
-    <strong>dados-cifras.js</strong>.
-    <br><br>
-    Use somente conteúdo que você tenha autorização para publicar.
-  </div>
+  <h1>
+    🎵 Cadastrar música
+  </h1>
 
-  <label for="nome">
+
+  <label>
     Nome da música
   </label>
 
   <input
     id="nome"
-    type="text"
-    placeholder="Ex: Minha Música"
+    placeholder="Ex: Bondade de Deus"
   >
 
-  <label for="artista">
+
+  <label>
     Artista
   </label>
 
   <input
     id="artista"
-    type="text"
-    placeholder="Ex: CifraVerse"
+    placeholder="Ex: Isaias Saad"
   >
 
-  <label for="tom">
+
+  <label>
     Tom original
   </label>
 
-  <select id="tom">
-    <option>C</option>
-    <option>C#</option>
-    <option>D</option>
-    <option>D#</option>
-    <option>E</option>
-    <option>F</option>
-    <option>F#</option>
-    <option>G</option>
-    <option>G#</option>
-    <option>A</option>
-    <option>A#</option>
-    <option>B</option>
-    <option>Am</option>
-    <option>Bm</option>
-    <option>Dm</option>
-    <option>Em</option>
-    <option>Fm</option>
-    <option>Gm</option>
-  </select>
+  <input
+    id="tom"
+    placeholder="Ex: G"
+  >
 
-  <label for="conteudo">
-    Conteúdo da cifra
+
+  <label>
+    Cifra
   </label>
 
   <textarea
     id="conteudo"
-    placeholder="Exemplo:
-
-[C] Começamos aqui
-[G] com nossa primeira cifra
-[Am] Tudo pronto para tocar
-[F] no CifraVerse"
+    placeholder="[G] Eu vou cantar&#10;[Em] A bondade de Deus&#10;[C] Para sempre..."
   ></textarea>
 
-  <button onclick="gerarCodigo()">
-    Gerar código da música
+
+  <div class="exemplo">
+
+    Cada linha deve começar com o acorde entre colchetes.
+
+    <br><br>
+
+    Exemplo:
+
+    <br>
+
+    [G] Esta é uma música
+
+    <br>
+
+    [D] Salvando diretamente no banco
+
+    <br>
+
+    [Em] Pelo painel do CifraVerse
+
+  </div>
+
+
+  <button onclick="salvarMusica()">
+
+    💾 Salvar música
+
   </button>
 
+
   <div
-    id="resultado"
-    class="resultado"
-    style="display:none;"
+    id="mensagem"
+    class="mensagem"
   ></div>
 
-  <a href="index.html" class="voltar">
-    ← Voltar para o CifraVerse
-  </a>
-
 </div>
+
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script src="supabase.js"></script>
+
+
 <script>
-async function gerarCodigo() {
+
+function salvarMusica() {
 
   const nome =
-    document.getElementById("nome").value.trim();
+    document
+      .getElementById("nome")
+      .value
+      .trim();
+
 
   const artista =
-    document.getElementById("artista").value.trim();
+    document
+      .getElementById("artista")
+      .value
+      .trim();
+
 
   const tom =
-    document.getElementById("tom").value;
+    document
+      .getElementById("tom")
+      .value
+      .trim();
+
 
   const conteudo =
-    document.getElementById("conteudo").value.trim();
+    document
+      .getElementById("conteudo")
+      .value
+      .trim();
 
 
-  if (!nome || !artista || !conteudo) {
-
-    alert(
-      "Preencha o nome, artista e conteúdo da cifra."
+  const mensagem =
+    document.getElementById(
+      "mensagem"
     );
 
+
+  if (
+    !nome ||
+    !artista ||
+    !tom ||
+    !conteudo
+  ) {
+
+    mensagem.textContent =
+      "❌ Preencha todos os campos.";
+
     return;
+
   }
 
 
-  const linhas =
-    conteudo
-      .split("\n")
-      .filter(linha => linha.trim() !== "")
-      .map(linha => {
-
-        const correspondencia =
-          linha.match(/^\[([^\]]+)\]\s*(.*)$/);
-
-        if (correspondencia) {
-
-          return [
-            correspondencia[1],
-            correspondencia[2]
-          ];
-
-        }
-
-        return [
-          "",
-          linha
-        ];
-
-      });
+  const linhasTexto =
+    conteudo.split("\n");
 
 
-  const { data, error } =
+  const linhas = [];
+
+
+  linhasTexto.forEach(function(linha) {
+
+    linha =
+      linha.trim();
+
+
+    if (!linha) {
+
+      return;
+
+    }
+
+
+    const resultado =
+      linha.match(
+        /^\[([^\]]+)\]\s*(.*)$/
+      );
+
+
+    if (resultado) {
+
+      linhas.push([
+
+        resultado[1].trim(),
+
+        resultado[2]
+
+      ]);
+
+    } else {
+
+      linhas.push([
+
+        "",
+
+        linha
+
+      ]);
+
+    }
+
+  });
+
+
+  salvarNoSupabase(
+    nome,
+    artista,
+    tom,
+    linhas
+  );
+
+}
+
+
+async function salvarNoSupabase(
+  nome,
+  artista,
+  tom,
+  linhas
+) {
+
+  const mensagem =
+    document.getElementById(
+      "mensagem"
+    );
+
+
+  mensagem.textContent =
+    "Salvando...";
+
+
+  const { error } =
     await supabaseClient
       .from("musicas")
-      .insert([
+      .upsert(
+
         {
           nome: nome,
           artista: artista,
           tom: tom,
           linhas: linhas
+        },
+
+        {
+          onConflict: "nome"
         }
-      ])
-      .select();
+
+      );
 
 
   if (error) {
 
     console.error(error);
 
-    alert(
-      "Erro ao salvar a música: " +
-      error.message
-    );
+    mensagem.textContent =
+      "❌ Erro ao salvar: " +
+      error.message;
 
     return;
+
   }
 
 
-  alert("🎵 Música adicionada com sucesso!");
+  mensagem.textContent =
+    "🎵 Música salva com sucesso!";
 
 
-  document.getElementById("nome").value = "";
-  document.getElementById("artista").value = "";
-  document.getElementById("tom").value = "C";
-  document.getElementById("conteudo").value = "";
+  document.getElementById(
+    "nome"
+  ).value = "";
 
+
+  document.getElementById(
+    "artista"
+  ).value = "";
+
+
+  document.getElementById(
+    "tom"
+  ).value = "";
+
+
+  document.getElementById(
+    "conteudo"
+  ).value = "";
 
 }
+
 </script>
 
+
 </body>
+
 </html>
