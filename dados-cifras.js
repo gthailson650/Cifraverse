@@ -1,34 +1,25 @@
 const dadosCifras = {
+
   "Minha Música": {
-    artista: "Artista de exemplo",
+    artista: "CifraVerse",
     tom: "C",
     linhas: [
-      ["C", "Esta é uma música de demonstração."],
-      ["G", "Aqui podemos colocar o conteúdo autorizado."],
-      ["Am", "Os acordes aparecerão aqui."],
-      ["F", "E o CifraVerse poderá transpor o tom."]
+      ["C", "Começamos aqui"],
+      ["G", "com nossa primeira cifra"],
+      ["Am", "Tudo pronto para tocar"],
+      ["F", "no CifraVerse"]
     ]
   },
 
   "Outra Música": {
-    artista: "Outro Artista",
+    artista: "CifraVerse",
     tom: "G",
     linhas: [
-      ["G", "Esta é outra demonstração."],
-      ["D", "Os acordes podem ser alterados."],
-      ["Em", "O sistema reconhece o tom."],
-      ["C", "E permite subir ou baixar."]
-    ]
-  },
-
-  "Nova Música": {
-    artista: "Novo Artista",
-    tom: "D",
-    linhas: [
-      ["D", "Terceira música de demonstração."],
-      ["A", "Preparada para o CifraVerse."],
-      ["Bm", "Com acordes organizados."],
-      ["G", "E pronta para receber conteúdo."]
+      ["G", "Esta é nossa segunda música"],
+      ["D", "com acordes organizados"],
+      ["Em", "para testar o sistema"],
+      ["C", "do CifraVerse"]
     ]
   }
+
 };
