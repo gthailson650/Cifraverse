@@ -20,6 +20,15 @@ const dadosCifras = {
       ["Em", "para testar o sistema"],
       ["C", "do CifraVerse"]
     ]
-  }
+  },
 
-};
+  "Música Nova": {
+    artista: "CifraVerse",
+    tom: "C",
+    linhas: [
+      ["C", "Começamos aqui"],
+      ["G", "Esta é uma demonstração"],
+      ["Am", "Nossa música nova"],
+      ["F", "No CifraVerse"]
+    ]
+}
