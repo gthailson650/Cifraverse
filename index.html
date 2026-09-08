@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>CifraVerse</title>
 
   <style>
@@ -82,16 +83,13 @@
       margin-top: 20px;
     }
 
-    .card h2 {
-      margin-bottom: 10px;
-    }
-
     .song {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 15px 0;
       border-bottom: 1px solid #292d36;
+      gap: 15px;
     }
 
     .song:last-child {
@@ -112,6 +110,16 @@
       text-decoration: none;
       font-weight: bold;
       font-size: 14px;
+      white-space: nowrap;
+    }
+
+    #resultado {
+      margin-top: 20px;
+    }
+
+    .nenhum {
+      color: #9da4b0;
+      padding: 20px 0;
     }
 
     footer {
@@ -119,64 +127,230 @@
       color: #777;
       padding: 40px 20px;
     }
+
+    @media (max-width: 600px) {
+
+      .hero h1 {
+        font-size: 32px;
+      }
+
+      .search input {
+        min-width: 0;
+      }
+
+      .song {
+        align-items: flex-start;
+      }
+
+    }
   </style>
 </head>
 
 <body>
 
-  <header>
+<header>
+  <div class="container" style="padding-top: 0; padding-bottom: 0;">
     <div class="logo">🎵 CifraVerse</div>
-  </header>
+  </div>
+</header>
 
-  <main class="container">
+<main class="container">
 
-    <section class="hero">
-      <h1>Encontre sua cifra</h1>
-      <p>Aprenda suas músicas favoritas e toque com facilidade.</p>
+  <section class="hero">
 
-      <div class="search">
-        <input type="text" placeholder="Digite o nome da música ou artista">
-        <button>Buscar</button>
-      </div>
-    </section>
+    <h1>Encontre sua cifra</h1>
 
-    <section class="card">
-      <h2>🎸 Cifras populares</h2>
+    <p>
+      Pesquise uma música ou artista e comece a tocar.
+    </p>
+
+    <form class="search" onsubmit="pesquisar(event)">
+
+      <input
+        id="campoBusca"
+        type="search"
+        placeholder="Qual música você quer tocar?"
+        autocomplete="off"
+      >
+
+      <button type="submit">
+        Buscar
+      </button>
+
+    </form>
+
+  </section>
+
+  <section class="card">
+
+    <h2>🎸 Cifras populares</h2>
+
+    <div id="resultado">
 
       <div class="song">
+
         <div>
-          <strong>Exemplo de Música</strong>
-          <div class="artist">Artista</div>
+          <strong>Minha Música</strong>
+          <div class="artist">Artista de exemplo</div>
         </div>
 
-        <a href="cifra.html" class="button">Ver cifra</a>
+        <a href="cifra.html" class="button">
+          Ver cifra
+        </a>
+
       </div>
 
       <div class="song">
+
         <div>
           <strong>Outra Música</strong>
           <div class="artist">Outro Artista</div>
         </div>
 
-        <a href="cifra.html" class="button">Ver cifra</a>
+        <a href="cifra.html" class="button">
+          Ver cifra
+        </a>
+
       </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  © 2026 CifraVerse — Seu espaço para aprender música.
+</footer>
+
+<script>
+
+const musicas = [
+
+  {
+    nome: "Minha Música",
+    artista: "Artista de exemplo",
+    link: "cifra.html"
+  },
+
+  {
+    nome: "Outra Música",
+    artista: "Outro Artista",
+    link: "cifra.html"
+  }
+
+];
+
+function pesquisar(event) {
+
+  event.preventDefault();
+
+  const busca =
+    document
+      .getElementById("campoBusca")
+      .value
+      .toLowerCase()
+      .trim();
+
+  const resultado =
+    document.getElementById("resultado");
+
+  if (busca === "") {
+
+    mostrarTodas();
+
+    return;
+  }
+
+  const encontradas = musicas.filter(function(musica) {
+
+    return (
+      musica.nome.toLowerCase().includes(busca) ||
+      musica.artista.toLowerCase().includes(busca)
+    );
+
+  });
+
+  resultado.innerHTML = "";
+
+  if (encontradas.length === 0) {
+
+    resultado.innerHTML =
+      '<div class="nenhum">😕 Nenhuma música encontrada.</div>';
+
+    return;
+  }
+
+  encontradas.forEach(function(musica) {
+
+    resultado.innerHTML += `
 
       <div class="song">
+
         <div>
-          <strong>Minha Música</strong>
-          <div class="artist">CifraVerse</div>
+
+          <strong>${musica.nome}</strong>
+
+          <div class="artist">
+            ${musica.artista}
+          </div>
+
         </div>
 
-        <a href="cifra.html" class="button">Ver cifra</a>
+        <a
+          href="${musica.link}"
+          class="button"
+        >
+          Ver cifra
+        </a>
+
       </div>
 
-    </section>
+    `;
 
-  </main>
+  });
 
-  <footer>
-    © 2026 CifraVerse — Seu espaço para aprender música.
-  </footer>
+}
+
+function mostrarTodas() {
+
+  const resultado =
+    document.getElementById("resultado");
+
+  resultado.innerHTML = "";
+
+  musicas.forEach(function(musica) {
+
+    resultado.innerHTML += `
+
+      <div class="song">
+
+        <div>
+
+          <strong>${musica.nome}</strong>
+
+          <div class="artist">
+            ${musica.artista}
+          </div>
+
+        </div>
+
+        <a
+          href="${musica.link}"
+          class="button"
+        >
+          Ver cifra
+        </a>
+
+      </div>
+
+    `;
+
+  });
+
+}
+
+</script>
 
 </body>
 </html>
