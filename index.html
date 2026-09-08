@@ -72,7 +72,6 @@
       color: #07110a;
       font-weight: bold;
       border-radius: 0 8px 8px 0;
-      cursor: pointer;
     }
 
     .card {
@@ -81,10 +80,6 @@
       border-radius: 14px;
       padding: 20px;
       margin-top: 20px;
-    }
-
-    .titulo-secao {
-      margin-bottom: 10px;
     }
 
     .song {
@@ -144,10 +139,6 @@
       .hero h1 {
         font-size: 32px;
       }
-
-      .song {
-        align-items: flex-start;
-      }
     }
   </style>
 </head>
@@ -189,9 +180,7 @@
 
   <section class="card">
 
-    <h2 class="titulo-secao">
-      🎸 Cifras populares
-    </h2>
+    <h2>Cifras populares</h2>
 
     <div id="resultado"></div>
 
@@ -209,8 +198,7 @@
 
 function mostrarMusicas(lista) {
 
-  const resultado =
-    document.getElementById("resultado");
+  const resultado = document.getElementById("resultado");
 
   resultado.innerHTML = "";
 
@@ -245,7 +233,7 @@ function mostrarMusicas(lista) {
         </div>
 
         <a
-          href="${musica.cifra}"
+          href="cifra.html?musica=${encodeURIComponent(musica.nome)}"
           class="button"
         >
           Ver cifra
@@ -264,12 +252,11 @@ function pesquisar(event) {
 
   event.preventDefault();
 
-  const busca =
-    document
-      .getElementById("campoBusca")
-      .value
-      .toLowerCase()
-      .trim();
+  const busca = document
+    .getElementById("campoBusca")
+    .value
+    .toLowerCase()
+    .trim();
 
   if (busca === "") {
 
@@ -278,22 +265,14 @@ function pesquisar(event) {
     return;
   }
 
-  const resultados =
-    musicas.filter(function(musica) {
+  const resultados = musicas.filter(function(musica) {
 
-      return (
-        musica.nome
-          .toLowerCase()
-          .includes(busca)
+    return (
+      musica.nome.toLowerCase().includes(busca) ||
+      musica.artista.toLowerCase().includes(busca)
+    );
 
-        ||
-
-        musica.artista
-          .toLowerCase()
-          .includes(busca)
-      );
-
-    });
+  });
 
   mostrarMusicas(resultados);
 
