@@ -150,63 +150,23 @@
 
 <script src="musicas.js"></script>
 <script src="dados-cifras.js"></script>
+
 <script>
 
-const parametros = new URLSearchParams(window.location.search);
+const parametros =
+  new URLSearchParams(window.location.search);
 
-const nomeEscolhido = parametros.get("musica");
+const nomeEscolhido =
+  parametros.get("musica");
 
-const musicaEncontrada = musicas.find(function(musica) {
-  return musica.nome === nomeEscolhido;
-});
-
-if (musicaEncontrada) {
-  document.getElementById("nomeMusica").textContent = musicaEncontrada.nome;
-  document.getElementById("artista").textContent = musicaEncontrada.artista;
-  document.getElementById("tomAtual").textContent = musicaEncontrada.tom;
-}
+const musicaEncontrada =
+  musicas.find(function(musica) {
+    return musica.nome === nomeEscolhido;
+  });
 
 let deslocamento = 0;
 
 let tamanhoFonte = 20;
-
-
-/*
-  Cifras de demonstração.
-  Depois vamos substituir por conteúdo autorizado.
-*/
-
-
-
-  "Minha Música": [
-    ["C", "Esta é uma música de exemplo"],
-    ["G", "para testar o CifraVerse"],
-    ["Am", "Aqui ficam os acordes"],
-    ["F", "e a letra da demonstração"]
-  ],
-
-  "Outra Música": [
-    ["G", "Outra música de demonstração"],
-    ["D", "com acordes para teste"],
-    ["Em", "do sistema de transposição"],
-    ["C", "do CifraVerse"]
-  ],
-
-  "Nova Música": [
-    ["D", "Nova música de demonstração"],
-    ["A", "para testar o sistema"],
-    ["Bm", "de cifras"],
-    ["G", "do CifraVerse"]
-  ],
-
-  "Música de Teste": [
-    ["Am", "Música de teste"],
-    ["F", "do nosso site"],
-    ["C", "CifraVerse"],
-    ["G", "funcionando"]
-  ]
-
-};
 
 
 const acordes = [
@@ -233,26 +193,26 @@ function separarAcorde(acorde) {
     acorde.length > 1 &&
     (acorde[1] === "#" || acorde[1] === "b")
   ) {
-
     nota = acorde.substring(0, 2);
-
   }
 
-  let complemento = acorde.substring(nota.length);
+  let complemento =
+    acorde.substring(nota.length);
 
   return {
     nota: nota,
     complemento: complemento
   };
-
 }
 
 
 function mudarAcorde(acorde) {
 
-  const partes = separarAcorde(acorde);
+  const partes =
+    separarAcorde(acorde);
 
-  let indice = acordes.indexOf(partes.nota);
+  let indice =
+    acordes.indexOf(partes.nota);
 
   if (indice === -1) {
     return acorde;
@@ -264,10 +224,13 @@ function mudarAcorde(acorde) {
     indice += acordes.length;
   }
 
-  indice = indice % acordes.length;
+  indice =
+    indice % acordes.length;
 
-  return acordes[indice] + partes.complemento;
-
+  return (
+    acordes[indice] +
+    partes.complemento
+  );
 }
 
 
@@ -278,7 +241,11 @@ function mostrarCifra() {
     document.getElementById("nomeMusica").textContent =
       "Música não encontrada";
 
-    document.getElementById("artista").textContent = "";
+    document.getElementById("artista").textContent =
+      "";
+
+    document.getElementById("tomAtual").textContent =
+      "-";
 
     document.getElementById("erro").textContent =
       "Volte ao início e escolha uma música.";
@@ -287,15 +254,24 @@ function mostrarCifra() {
   }
 
 
+  const dados =
+    dadosCifras[musicaEncontrada.nome];
+
+
   document.getElementById("nomeMusica").textContent =
     musicaEncontrada.nome;
 
+
   document.getElementById("artista").textContent =
-    musicaEncontrada.artista;
+    dados
+      ? dados.artista
+      : musicaEncontrada.artista;
 
 
   document.getElementById("tomAtual").textContent =
-    dados ? mudarAcorde(dados.tom) : mudarAcorde(musicaEncontrada.tom);
+    dados
+      ? mudarAcorde(dados.tom)
+      : mudarAcorde(musicaEncontrada.tom);
 
 
   const area =
@@ -304,12 +280,7 @@ function mostrarCifra() {
   area.innerHTML = "";
 
 
-  const dados = dadosCifras[musicaEncontrada.nome];
-
-const linhas = dados ? dados.linhas : null;
-
-
-  if (!linhas) {
+  if (!dados || !dados.linhas) {
 
     area.innerHTML =
       "<p>Cifra ainda não cadastrada.</p>";
@@ -318,7 +289,7 @@ const linhas = dados ? dados.linhas : null;
   }
 
 
-  linhas.forEach(function(linha) {
+  dados.linhas.forEach(function(linha) {
 
     const acorde =
       mudarAcorde(linha[0]);
@@ -344,7 +315,6 @@ const linhas = dados ? dados.linhas : null;
 
   area.style.fontSize =
     tamanhoFonte + "px";
-
 }
 
 
@@ -353,7 +323,6 @@ function alterarTom(valor) {
   deslocamento += valor;
 
   mostrarCifra();
-
 }
 
 
@@ -362,7 +331,6 @@ function tomOriginal() {
   deslocamento = 0;
 
   mostrarCifra();
-
 }
 
 
@@ -382,7 +350,6 @@ function alterarFonte(valor) {
 
 
   mostrarCifra();
-
 }
 
 
