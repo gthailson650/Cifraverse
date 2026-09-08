@@ -1,11 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
   <title>CifraVerse</title>
 
+
   <style>
+
     * {
       box-sizing: border-box;
     }
@@ -91,78 +100,125 @@
       color: #ff8585;
       margin-top: 20px;
     }
+
   </style>
+
 </head>
+
 
 <body>
 
+
 <div class="container">
 
-  <a class="voltar" href="index.html">
+  <a
+    class="voltar"
+    href="index.html"
+  >
     ← Voltar para o início
   </a>
 
+
   <div class="card">
 
-    <div class="artista" id="artista">
+    <div
+      class="artista"
+      id="artista"
+    >
       Carregando...
     </div>
+
 
     <h1 id="nomeMusica">
       Carregando...
     </h1>
 
+
     <div class="tom">
-      Tom: <span id="tomAtual">-</span>
+
+      Tom:
+      <span id="tomAtual">
+        -
+      </span>
+
     </div>
+
 
     <div class="botoes">
 
-      <button class="escuro" onclick="alterarTom(-1)">
+      <button
+        class="escuro"
+        onclick="alterarTom(-1)"
+      >
         − Baixar tom
       </button>
 
-      <button class="verde" onclick="tomOriginal()">
+
+      <button
+        class="verde"
+        onclick="tomOriginal()"
+      >
         Tom original
       </button>
 
-      <button class="escuro" onclick="alterarTom(1)">
+
+      <button
+        class="escuro"
+        onclick="alterarTom(1)"
+      >
         + Subir tom
       </button>
 
-      <button class="escuro" onclick="alterarFonte(-2)">
+
+      <button
+        class="escuro"
+        onclick="alterarFonte(-2)"
+      >
         A−
       </button>
 
-      <button class="escuro" onclick="alterarFonte(2)">
+
+      <button
+        class="escuro"
+        onclick="alterarFonte(2)"
+      >
         A+
       </button>
 
     </div>
 
+
     <div id="cifra"></div>
 
-    <div id="erro" class="erro"></div>
+
+    <div
+      id="erro"
+      class="erro"
+    ></div>
 
   </div>
 
 </div>
 
-<script src="musicas.js"></script>
-<script src="dados-cifras.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="supabase.js"></script>
+
 
 <script>
 
 const parametros =
-  new URLSearchParams(window.location.search);
+  new URLSearchParams(
+    window.location.search
+  );
+
 
 const nomeEscolhido =
   parametros.get("musica");
 
-const musicaEncontrada =
-  musicas.find(function(musica) {
-    return musica.nome === nomeEscolhido;
-  });
+
+let musicaEncontrada = null;
 
 let deslocamento = 0;
 
@@ -170,6 +226,7 @@ let tamanhoFonte = 20;
 
 
 const acordes = [
+
   "C",
   "C#",
   "D",
@@ -182,130 +239,327 @@ const acordes = [
   "A",
   "A#",
   "B"
+
 ];
+
+
+const equivalentes = {
+
+  "Db": "C#",
+  "Eb": "D#",
+  "Gb": "F#",
+  "Ab": "G#",
+  "Bb": "A#"
+
+};
 
 
 function separarAcorde(acorde) {
 
-  let nota = acorde.substring(0, 1);
+  if (!acorde) {
 
-  if (
-    acorde.length > 1 &&
-    (acorde[1] === "#" || acorde[1] === "b")
-  ) {
-    nota = acorde.substring(0, 2);
+    return {
+      nota: "",
+      complemento: ""
+    };
+
   }
 
-  let complemento =
-    acorde.substring(nota.length);
+
+  const resultado =
+    acorde.match(
+      /^([A-Ga-g])([#b]?)(.*)$/
+    );
+
+
+  if (!resultado) {
+
+    return {
+      nota: "",
+      complemento: acorde
+    };
+
+  }
+
+
+  let nota =
+    resultado[1].toUpperCase() +
+    resultado[2];
+
+
+  const complemento =
+    resultado[3];
+
+
+  if (equivalentes[nota]) {
+
+    nota =
+      equivalentes[nota];
+
+  }
+
 
   return {
-    nota: nota,
-    complemento: complemento
+    nota,
+    complemento
   };
+
 }
 
 
 function mudarAcorde(acorde) {
 
+  if (!acorde) {
+    return "";
+  }
+
+
   const partes =
     separarAcorde(acorde);
+
 
   let indice =
     acordes.indexOf(partes.nota);
 
+
   if (indice === -1) {
+
     return acorde;
+
   }
+
 
   indice += deslocamento;
 
+
   while (indice < 0) {
+
     indice += acordes.length;
+
   }
+
 
   indice =
     indice % acordes.length;
+
 
   return (
     acordes[indice] +
     partes.complemento
   );
+
+}
+
+
+async function carregarMusica() {
+
+  const erro =
+    document.getElementById("erro");
+
+
+  if (!nomeEscolhido) {
+
+    mostrarErro(
+      "Nenhuma música foi escolhida."
+    );
+
+    return;
+
+  }
+
+
+  const { data, error } =
+    await supabaseClient
+      .from("musicas")
+      .select("*")
+      .eq("nome", nomeEscolhido)
+      .maybeSingle();
+
+
+  if (error) {
+
+    console.error(error);
+
+    mostrarErro(
+      "Erro ao buscar a música no banco."
+    );
+
+    return;
+
+  }
+
+
+  if (!data) {
+
+    mostrarErro(
+      "Música não encontrada no banco."
+    );
+
+    return;
+
+  }
+
+
+  musicaEncontrada = data;
+
+  mostrarCifra();
+
+}
+
+
+function mostrarErro(mensagem) {
+
+  document.getElementById(
+    "nomeMusica"
+  ).textContent =
+    "Música não encontrada";
+
+
+  document.getElementById(
+    "artista"
+  ).textContent = "";
+
+
+  document.getElementById(
+    "tomAtual"
+  ).textContent = "-";
+
+
+  document.getElementById(
+    "cifra"
+  ).innerHTML = "";
+
+
+  document.getElementById(
+    "erro"
+  ).textContent = mensagem;
+
 }
 
 
 function mostrarCifra() {
 
   if (!musicaEncontrada) {
-
-    document.getElementById("nomeMusica").textContent =
-      "Música não encontrada";
-
-    document.getElementById("artista").textContent =
-      "";
-
-    document.getElementById("tomAtual").textContent =
-      "-";
-
-    document.getElementById("erro").textContent =
-      "Volte ao início e escolha uma música.";
-
     return;
   }
 
 
-  const dados =
-    dadosCifras[musicaEncontrada.nome];
-
-
-  document.getElementById("nomeMusica").textContent =
+  document.getElementById(
+    "nomeMusica"
+  ).textContent =
     musicaEncontrada.nome;
 
 
-  document.getElementById("artista").textContent =
-    dados
-      ? dados.artista
-      : musicaEncontrada.artista;
+  document.getElementById(
+    "artista"
+  ).textContent =
+    musicaEncontrada.artista || "";
 
 
-  document.getElementById("tomAtual").textContent =
-    dados
-      ? mudarAcorde(dados.tom)
-      : mudarAcorde(musicaEncontrada.tom);
+  document.getElementById(
+    "tomAtual"
+  ).textContent =
+    mudarAcorde(
+      musicaEncontrada.tom || ""
+    );
 
 
   const area =
     document.getElementById("cifra");
 
+
   area.innerHTML = "";
 
 
-  if (!dados || !dados.linhas) {
+  let linhas =
+    musicaEncontrada.linhas;
+
+
+  if (typeof linhas === "string") {
+
+    try {
+
+      linhas =
+        JSON.parse(linhas);
+
+    } catch {
+
+      linhas = [];
+
+    }
+
+  }
+
+
+  if (!Array.isArray(linhas) || linhas.length === 0) {
 
     area.innerHTML =
       "<p>Cifra ainda não cadastrada.</p>";
 
     return;
+
   }
 
 
-  dados.linhas.forEach(function(linha) {
+  linhas.forEach(function(linha) {
 
-    const acorde =
-      mudarAcorde(linha[0]);
+    let acorde = "";
 
-    const texto =
-      linha[1];
+    let texto = "";
+
+
+    if (Array.isArray(linha)) {
+
+      acorde =
+        linha[0] || "";
+
+      texto =
+        linha[1] || "";
+
+    } else {
+
+      acorde =
+        linha.acorde || "";
+
+      texto =
+        linha.texto || "";
+
+    }
+
 
     const div =
       document.createElement("div");
 
 
-    div.innerHTML =
-      '<span class="acorde">[' +
-      acorde +
-      ']</span> ' +
-      texto;
+    if (acorde) {
+
+      const span =
+        document.createElement("span");
+
+      span.className =
+        "acorde";
+
+      span.textContent =
+        "[" +
+        mudarAcorde(acorde) +
+        "]";
+
+
+      div.appendChild(span);
+
+
+      div.appendChild(
+        document.createTextNode(
+          " " + texto
+        )
+      );
+
+    } else {
+
+      div.textContent =
+        texto;
+
+    }
 
 
     area.appendChild(div);
@@ -315,6 +569,7 @@ function mostrarCifra() {
 
   area.style.fontSize =
     tamanhoFonte + "px";
+
 }
 
 
@@ -323,6 +578,7 @@ function alterarTom(valor) {
   deslocamento += valor;
 
   mostrarCifra();
+
 }
 
 
@@ -331,6 +587,7 @@ function tomOriginal() {
   deslocamento = 0;
 
   mostrarCifra();
+
 }
 
 
@@ -340,22 +597,29 @@ function alterarFonte(valor) {
 
 
   if (tamanhoFonte < 14) {
+
     tamanhoFonte = 14;
+
   }
 
 
   if (tamanhoFonte > 34) {
+
     tamanhoFonte = 34;
+
   }
 
 
   mostrarCifra();
+
 }
 
 
-mostrarCifra();
+carregarMusica();
 
 </script>
 
+
 </body>
+
 </html>
