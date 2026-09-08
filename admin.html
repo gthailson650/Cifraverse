@@ -180,8 +180,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="supabase.js"></script>
 <script>
-
-function gerarCodigo() {
+async function gerarCodigo() {
 
   const nome =
     document.getElementById("nome").value.trim();
@@ -232,24 +231,43 @@ function gerarCodigo() {
       });
 
 
-  const codigo =
-`  "${nome}": {
-    artista: "${artista}",
-    tom: "${tom}",
-    linhas: ${JSON.stringify(linhas, null, 2)}
-  }`;
+  const { data, error } =
+    await supabaseClient
+      .from("musicas")
+      .insert([
+        {
+          nome: nome,
+          artista: artista,
+          tom: tom,
+          linhas: linhas
+        }
+      ])
+      .select();
 
 
-  const resultado =
-    document.getElementById("resultado");
+  if (error) {
 
-  resultado.style.display = "block";
+    console.error(error);
 
-  resultado.textContent =
-    codigo;
+    alert(
+      "Erro ao salvar a música: " +
+      error.message
+    );
+
+    return;
+  }
+
+
+  alert("🎵 Música adicionada com sucesso!");
+
+
+  document.getElementById("nome").value = "";
+  document.getElementById("artista").value = "";
+  document.getElementById("tom").value = "C";
+  document.getElementById("conteudo").value = "";
+
 
 }
-
 </script>
 
 </body>
