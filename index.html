@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>CifraVerse</title>
 
   <style>
@@ -21,8 +20,13 @@
 
     header {
       background: #171a21;
-      padding: 20px;
       border-bottom: 1px solid #292d36;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 25px 20px;
     }
 
     .logo {
@@ -31,19 +35,13 @@
       color: #4ade80;
     }
 
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 30px 20px;
-    }
-
     .hero {
       text-align: center;
-      padding: 40px 10px;
+      padding: 55px 10px 35px;
     }
 
     .hero h1 {
-      font-size: 38px;
+      font-size: 40px;
       margin-bottom: 12px;
     }
 
@@ -62,6 +60,7 @@
       flex: 1;
       padding: 16px;
       border: none;
+      outline: none;
       border-radius: 8px 0 0 8px;
       font-size: 16px;
     }
@@ -73,75 +72,82 @@
       color: #07110a;
       font-weight: bold;
       border-radius: 0 8px 8px 0;
+      cursor: pointer;
     }
 
     .card {
       background: #191d25;
       border: 1px solid #292d36;
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 20px;
       margin-top: 20px;
+    }
+
+    .titulo-secao {
+      margin-bottom: 10px;
     }
 
     .song {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 15px 0;
-      border-bottom: 1px solid #292d36;
       gap: 15px;
+      padding: 17px 0;
+      border-bottom: 1px solid #292d36;
     }
 
     .song:last-child {
       border-bottom: none;
     }
 
+    .nome {
+      font-size: 17px;
+      font-weight: bold;
+    }
+
     .artist {
       color: #9da4b0;
       font-size: 14px;
-      margin-top: 4px;
+      margin-top: 5px;
+    }
+
+    .tom {
+      color: #4ade80;
+      font-size: 13px;
+      margin-top: 5px;
     }
 
     .button {
       background: #4ade80;
       color: #07110a;
-      padding: 8px 12px;
-      border-radius: 6px;
+      padding: 9px 13px;
+      border-radius: 7px;
       text-decoration: none;
       font-weight: bold;
       font-size: 14px;
       white-space: nowrap;
     }
 
-    #resultado {
-      margin-top: 20px;
-    }
-
     .nenhum {
       color: #9da4b0;
       padding: 20px 0;
+      text-align: center;
     }
 
     footer {
       text-align: center;
       color: #777;
-      padding: 40px 20px;
+      padding: 50px 20px 30px;
     }
 
     @media (max-width: 600px) {
-
       .hero h1 {
         font-size: 32px;
-      }
-
-      .search input {
-        min-width: 0;
       }
 
       .song {
         align-items: flex-start;
       }
-
     }
   </style>
 </head>
@@ -149,7 +155,7 @@
 <body>
 
 <header>
-  <div class="container" style="padding-top: 0; padding-bottom: 0;">
+  <div class="container">
     <div class="logo">🎵 CifraVerse</div>
   </div>
 </header>
@@ -183,37 +189,11 @@
 
   <section class="card">
 
-    <h2>🎸 Cifras populares</h2>
+    <h2 class="titulo-secao">
+      🎸 Cifras populares
+    </h2>
 
-    <div id="resultado">
-
-      <div class="song">
-
-        <div>
-          <strong>Minha Música</strong>
-          <div class="artist">Artista de exemplo</div>
-        </div>
-
-        <a href="cifra.html" class="button">
-          Ver cifra
-        </a>
-
-      </div>
-
-      <div class="song">
-
-        <div>
-          <strong>Outra Música</strong>
-          <div class="artist">Outro Artista</div>
-        </div>
-
-        <a href="cifra.html" class="button">
-          Ver cifra
-        </a>
-
-      </div>
-
-    </div>
+    <div id="resultado"></div>
 
   </section>
 
@@ -223,9 +203,61 @@
   © 2026 CifraVerse — Seu espaço para aprender música.
 </footer>
 
-  <script src="musicas.js"></script>
+<script src="musicas.js"></script>
 
-  <script>
+<script>
+
+function mostrarMusicas(lista) {
+
+  const resultado =
+    document.getElementById("resultado");
+
+  resultado.innerHTML = "";
+
+  if (lista.length === 0) {
+
+    resultado.innerHTML =
+      '<div class="nenhum">😕 Nenhuma música encontrada.</div>';
+
+    return;
+  }
+
+  lista.forEach(function(musica) {
+
+    resultado.innerHTML += `
+
+      <div class="song">
+
+        <div>
+
+          <div class="nome">
+            ${musica.nome}
+          </div>
+
+          <div class="artist">
+            ${musica.artista}
+          </div>
+
+          <div class="tom">
+            Tom: ${musica.tom}
+          </div>
+
+        </div>
+
+        <a
+          href="${musica.cifra}"
+          class="button"
+        >
+          Ver cifra
+        </a>
+
+      </div>
+
+    `;
+
+  });
+
+}
 
 
 function pesquisar(event) {
@@ -239,103 +271,36 @@ function pesquisar(event) {
       .toLowerCase()
       .trim();
 
-  const resultado =
-    document.getElementById("resultado");
-
   if (busca === "") {
 
-    mostrarTodas();
+    mostrarMusicas(musicas);
 
     return;
   }
 
-  const encontradas = musicas.filter(function(musica) {
+  const resultados =
+    musicas.filter(function(musica) {
 
-    return (
-      musica.nome.toLowerCase().includes(busca) ||
-      musica.artista.toLowerCase().includes(busca)
-    );
+      return (
+        musica.nome
+          .toLowerCase()
+          .includes(busca)
 
-  });
+        ||
 
-  resultado.innerHTML = "";
+        musica.artista
+          .toLowerCase()
+          .includes(busca)
+      );
 
-  if (encontradas.length === 0) {
+    });
 
-    resultado.innerHTML =
-      '<div class="nenhum">😕 Nenhuma música encontrada.</div>';
-
-    return;
-  }
-
-  encontradas.forEach(function(musica) {
-
-    resultado.innerHTML += `
-
-      <div class="song">
-
-        <div>
-
-          <strong>${musica.nome}</strong>
-
-          <div class="artist">
-            ${musica.artista}
-          </div>
-
-        </div>
-
-        <a
-          href="${musica.link}"
-          class="button"
-        >
-          Ver cifra
-        </a>
-
-      </div>
-
-    `;
-
-  });
+  mostrarMusicas(resultados);
 
 }
 
-function mostrarTodas() {
 
-  const resultado =
-    document.getElementById("resultado");
-
-  resultado.innerHTML = "";
-
-  musicas.forEach(function(musica) {
-
-    resultado.innerHTML += `
-
-      <div class="song">
-
-        <div>
-
-          <strong>${musica.nome}</strong>
-
-          <div class="artist">
-            ${musica.artista}
-          </div>
-
-        </div>
-
-        <a
-          href="${musica.link}"
-          class="button"
-        >
-          Ver cifra
-        </a>
-
-      </div>
-
-    `;
-
-  });
-
-}
+mostrarMusicas(musicas);
 
 </script>
 
