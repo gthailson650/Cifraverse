@@ -8,278 +8,380 @@
   <style>
     * {
       box-sizing: border-box;
-      margin: 0;
-      padding: 0;
     }
 
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
       background: #111318;
       color: white;
     }
 
-    header {
-      background: #171a21;
-      border-bottom: 1px solid #292d36;
-    }
-
     .container {
-      max-width: 900px;
+      max-width: 800px;
       margin: auto;
       padding: 25px 20px;
     }
 
-    .logo {
-      font-size: 28px;
-      font-weight: bold;
+    .voltar {
       color: #4ade80;
-    }
-
-    .hero {
-      text-align: center;
-      padding: 55px 10px 35px;
-    }
-
-    .hero h1 {
-      font-size: 40px;
-      margin-bottom: 12px;
-    }
-
-    .hero p {
-      color: #aeb4c0;
-      margin-bottom: 25px;
-    }
-
-    .search {
-      display: flex;
-      max-width: 650px;
-      margin: auto;
-    }
-
-    .search input {
-      flex: 1;
-      padding: 16px;
-      border: none;
-      outline: none;
-      border-radius: 8px 0 0 8px;
-      font-size: 16px;
-    }
-
-    .search button {
-      padding: 16px 22px;
-      border: none;
-      background: #4ade80;
-      color: #07110a;
-      font-weight: bold;
-      border-radius: 0 8px 8px 0;
+      text-decoration: none;
     }
 
     .card {
       background: #191d25;
       border: 1px solid #292d36;
       border-radius: 14px;
-      padding: 20px;
-      margin-top: 20px;
+      padding: 25px;
+      margin-top: 25px;
     }
 
-    .song {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      padding: 17px 0;
-      border-bottom: 1px solid #292d36;
-    }
-
-    .song:last-child {
-      border-bottom: none;
-    }
-
-    .nome {
-      font-size: 17px;
-      font-weight: bold;
-    }
-
-    .artist {
+    .artista {
       color: #9da4b0;
-      font-size: 14px;
-      margin-top: 5px;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      margin-bottom: 10px;
     }
 
     .tom {
       color: #4ade80;
-      font-size: 13px;
-      margin-top: 5px;
+      font-weight: bold;
+      font-size: 18px;
     }
 
-    .button {
+    .botoes {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+
+    button {
+      padding: 11px 15px;
+      border: 0;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .verde {
       background: #4ade80;
       color: #07110a;
-      padding: 9px 13px;
-      border-radius: 7px;
-      text-decoration: none;
+    }
+
+    .escuro {
+      background: #292d36;
+      color: white;
+    }
+
+    #cifra {
+      font-size: 20px;
+      line-height: 2;
+      white-space: pre-wrap;
+    }
+
+    .acorde {
+      color: #4ade80;
       font-weight: bold;
-      font-size: 14px;
-      white-space: nowrap;
     }
 
-    .nenhum {
-      color: #9da4b0;
-      padding: 20px 0;
-      text-align: center;
-    }
-
-    footer {
-      text-align: center;
-      color: #777;
-      padding: 50px 20px 30px;
-    }
-
-    @media (max-width: 600px) {
-      .hero h1 {
-        font-size: 32px;
-      }
+    .erro {
+      color: #ff8585;
+      margin-top: 20px;
     }
   </style>
 </head>
 
 <body>
 
-<header>
-  <div class="container">
-    <div class="logo">🎵 CifraVerse</div>
-  </div>
-</header>
+<div class="container">
 
-<main class="container">
+  <a class="voltar" href="index.html">
+    ← Voltar para o início
+  </a>
 
-  <section class="hero">
+  <div class="card">
 
-    <h1>Encontre sua cifra</h1>
+    <div class="artista" id="artista">
+      Carregando...
+    </div>
 
-    <p>
-      Pesquise uma música ou artista e comece a tocar.
-    </p>
+    <h1 id="nomeMusica">
+      Carregando...
+    </h1>
 
-    <form class="search" onsubmit="pesquisar(event)">
+    <div class="tom">
+      Tom: <span id="tomAtual">-</span>
+    </div>
 
-      <input
-        id="campoBusca"
-        type="search"
-        placeholder="Qual música você quer tocar?"
-        autocomplete="off"
-      >
+    <div class="botoes">
 
-      <button type="submit">
-        Buscar
+      <button class="escuro" onclick="alterarTom(-1)">
+        − Baixar tom
       </button>
 
-    </form>
+      <button class="verde" onclick="tomOriginal()">
+        Tom original
+      </button>
 
-  </section>
+      <button class="escuro" onclick="alterarTom(1)">
+        + Subir tom
+      </button>
 
-  <section class="card">
+      <button class="escuro" onclick="alterarFonte(-2)">
+        A−
+      </button>
 
-    <h2>Cifras populares</h2>
+      <button class="escuro" onclick="alterarFonte(2)">
+        A+
+      </button>
 
-    <div id="resultado"></div>
+    </div>
 
-  </section>
+    <div id="cifra"></div>
 
-</main>
+    <div id="erro" class="erro"></div>
 
-<footer>
-  © 2026 CifraVerse — Seu espaço para aprender música.
-</footer>
+  </div>
+
+</div>
 
 <script src="musicas.js"></script>
 
 <script>
 
-function mostrarMusicas(lista) {
+const parametros = new URLSearchParams(window.location.search);
 
-  const resultado = document.getElementById("resultado");
+const nomeEscolhido = parametros.get("musica");
 
-  resultado.innerHTML = "";
+const musicaEncontrada = musicas.find(function(musica) {
 
-  if (lista.length === 0) {
+  return musica.nome === nomeEscolhido;
 
-    resultado.innerHTML =
-      '<div class="nenhum">😕 Nenhuma música encontrada.</div>';
+});
 
-    return;
+let deslocamento = 0;
+
+let tamanhoFonte = 20;
+
+
+/*
+  Cifras de demonstração.
+  Depois vamos substituir por conteúdo autorizado.
+*/
+
+const cifrasDemo = {
+
+  "Minha Música": [
+    ["C", "Esta é uma música de exemplo"],
+    ["G", "para testar o CifraVerse"],
+    ["Am", "Aqui ficam os acordes"],
+    ["F", "e a letra da demonstração"]
+  ],
+
+  "Outra Música": [
+    ["G", "Outra música de demonstração"],
+    ["D", "com acordes para teste"],
+    ["Em", "do sistema de transposição"],
+    ["C", "do CifraVerse"]
+  ],
+
+  "Nova Música": [
+    ["D", "Nova música de demonstração"],
+    ["A", "para testar o sistema"],
+    ["Bm", "de cifras"],
+    ["G", "do CifraVerse"]
+  ],
+
+  "Música de Teste": [
+    ["Am", "Música de teste"],
+    ["F", "do nosso site"],
+    ["C", "CifraVerse"],
+    ["G", "funcionando"]
+  ]
+
+};
+
+
+const acordes = [
+  "C",
+  "C#",
+  "D",
+  "D#",
+  "E",
+  "F",
+  "F#",
+  "G",
+  "G#",
+  "A",
+  "A#",
+  "B"
+];
+
+
+function separarAcorde(acorde) {
+
+  let nota = acorde.substring(0, 1);
+
+  if (
+    acorde.length > 1 &&
+    (acorde[1] === "#" || acorde[1] === "b")
+  ) {
+
+    nota = acorde.substring(0, 2);
+
   }
 
-  lista.forEach(function(musica) {
+  let complemento = acorde.substring(nota.length);
 
-    resultado.innerHTML += `
-
-      <div class="song">
-
-        <div>
-
-          <div class="nome">
-            ${musica.nome}
-          </div>
-
-          <div class="artist">
-            ${musica.artista}
-          </div>
-
-          <div class="tom">
-            Tom: ${musica.tom}
-          </div>
-
-        </div>
-
-        <a
-          href="cifra.html?musica=${encodeURIComponent(musica.nome)}"
-          class="button"
-        >
-          Ver cifra
-        </a>
-
-      </div>
-
-    `;
-
-  });
+  return {
+    nota: nota,
+    complemento: complemento
+  };
 
 }
 
 
-function pesquisar(event) {
+function mudarAcorde(acorde) {
 
-  event.preventDefault();
+  const partes = separarAcorde(acorde);
 
-  const busca = document
-    .getElementById("campoBusca")
-    .value
-    .toLowerCase()
-    .trim();
+  let indice = acordes.indexOf(partes.nota);
 
-  if (busca === "") {
-
-    mostrarMusicas(musicas);
-
-    return;
+  if (indice === -1) {
+    return acorde;
   }
 
-  const resultados = musicas.filter(function(musica) {
+  indice += deslocamento;
 
-    return (
-      musica.nome.toLowerCase().includes(busca) ||
-      musica.artista.toLowerCase().includes(busca)
-    );
+  while (indice < 0) {
+    indice += acordes.length;
+  }
 
-  });
+  indice = indice % acordes.length;
 
-  mostrarMusicas(resultados);
+  return acordes[indice] + partes.complemento;
 
 }
 
 
-mostrarMusicas(musicas);
+function mostrarCifra() {
+
+  if (!musicaEncontrada) {
+
+    document.getElementById("nomeMusica").textContent =
+      "Música não encontrada";
+
+    document.getElementById("artista").textContent = "";
+
+    document.getElementById("erro").textContent =
+      "Volte ao início e escolha uma música.";
+
+    return;
+  }
+
+
+  document.getElementById("nomeMusica").textContent =
+    musicaEncontrada.nome;
+
+  document.getElementById("artista").textContent =
+    musicaEncontrada.artista;
+
+
+  document.getElementById("tomAtual").textContent =
+    mudarAcorde(musicaEncontrada.tom);
+
+
+  const area =
+    document.getElementById("cifra");
+
+  area.innerHTML = "";
+
+
+  const linhas =
+    cifrasDemo[musicaEncontrada.nome];
+
+
+  if (!linhas) {
+
+    area.innerHTML =
+      "<p>Cifra ainda não cadastrada.</p>";
+
+    return;
+  }
+
+
+  linhas.forEach(function(linha) {
+
+    const acorde =
+      mudarAcorde(linha[0]);
+
+    const texto =
+      linha[1];
+
+    const div =
+      document.createElement("div");
+
+
+    div.innerHTML =
+      '<span class="acorde">[' +
+      acorde +
+      ']</span> ' +
+      texto;
+
+
+    area.appendChild(div);
+
+  });
+
+
+  area.style.fontSize =
+    tamanhoFonte + "px";
+
+}
+
+
+function alterarTom(valor) {
+
+  deslocamento += valor;
+
+  mostrarCifra();
+
+}
+
+
+function tomOriginal() {
+
+  deslocamento = 0;
+
+  mostrarCifra();
+
+}
+
+
+function alterarFonte(valor) {
+
+  tamanhoFonte += valor;
+
+
+  if (tamanhoFonte < 14) {
+    tamanhoFonte = 14;
+  }
+
+
+  if (tamanhoFonte > 34) {
+    tamanhoFonte = 34;
+  }
+
+
+  mostrarCifra();
+
+}
+
+
+mostrarCifra();
 
 </script>
 
