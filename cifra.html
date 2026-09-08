@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cifra - CifraVerse</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #111318;
+      color: white;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 25px 20px;
+    }
+
+    a {
+      color: #4ade80;
+      text-decoration: none;
+    }
+
+    .card {
+      background: #191d25;
+      border: 1px solid #292d36;
+      border-radius: 14px;
+      padding: 25px;
+      margin-top: 25px;
+    }
+
+    .tom {
+      color: #4ade80;
+      font-weight: bold;
+    }
+
+    .botoes {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+
+    button {
+      padding: 12px 18px;
+      border: 0;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .verde {
+      background: #4ade80;
+      color: #07110a;
+    }
+
+    .escuro {
+      background: #292d36;
+      color: white;
+    }
+
+    .cifra {
+      font-size: 20px;
+      line-height: 2;
+      white-space: pre-wrap;
+    }
+
+    .acorde {
+      color: #4ade80;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <a href="index.html">← Voltar para o início</a>
+
+  <div class="card">
+
+    <p>Artista</p>
+
+    <h1>Minha Música</h1>
+
+    <p class="tom">Tom: C</p>
+
+    <div class="botoes">
+      <button class="escuro" onclick="mudarTom(-1)">− Tom</button>
+      <button class="verde" onclick="resetar()">Tom original</button>
+      <button class="escuro" onclick="mudarTom(1)">+ Tom</button>
+    </div>
+
+    <div class="cifra" id="cifra">
+
+      <span class="acorde">[C]</span> Esta é uma música
+      <br>
+      <span class="acorde">[G]</span> para testar o CifraVerse
+      <br>
+      <span class="acorde">[Am]</span> Aqui ficam os acordes
+      <br>
+      <span class="acorde">[F]</span> acima da música
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+let tom = 0;
+
+function mudarTom(valor) {
+  tom += valor;
+  alert("Tom alterado! Sistema de transposição será aprimorado na próxima etapa.");
+}
+
+function resetar() {
+  tom = 0;
+  alert("Tom original restaurado.");
+}
+
+</script>
+
+</body>
+</html>
