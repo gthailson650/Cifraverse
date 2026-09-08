@@ -157,10 +157,14 @@ const parametros = new URLSearchParams(window.location.search);
 const nomeEscolhido = parametros.get("musica");
 
 const musicaEncontrada = musicas.find(function(musica) {
-
   return musica.nome === nomeEscolhido;
-
 });
+
+if (musicaEncontrada) {
+  document.getElementById("nomeMusica").textContent = musicaEncontrada.nome;
+  document.getElementById("artista").textContent = musicaEncontrada.artista;
+  document.getElementById("tomAtual").textContent = musicaEncontrada.tom;
+}
 
 let deslocamento = 0;
 
