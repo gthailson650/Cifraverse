@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <title>Cifra - CifraVerse</title>
 
   <style>
@@ -32,9 +33,14 @@
       margin-top: 25px;
     }
 
+    .artista {
+      color: #9da4b0;
+    }
+
     .tom {
       color: #4ade80;
       font-weight: bold;
+      font-size: 18px;
     }
 
     .botoes {
@@ -45,7 +51,7 @@
     }
 
     button {
-      padding: 12px 18px;
+      padding: 12px 16px;
       border: 0;
       border-radius: 8px;
       font-weight: bold;
@@ -62,7 +68,7 @@
       color: white;
     }
 
-    .cifra {
+    #cifra {
       font-size: 20px;
       line-height: 2;
       white-space: pre-wrap;
@@ -71,6 +77,12 @@
     .acorde {
       color: #4ade80;
       font-weight: bold;
+    }
+
+    .controles {
+      margin-top: 15px;
+      display: flex;
+      gap: 10px;
     }
   </style>
 </head>
@@ -83,29 +95,47 @@
 
   <div class="card">
 
-    <p>Artista</p>
+    <div class="artista">
+      Exemplo de artista
+    </div>
 
     <h1>Minha Música</h1>
 
-    <p class="tom">Tom: C</p>
+    <div class="tom">
+      Tom: <span id="tomAtual">C</span>
+    </div>
 
     <div class="botoes">
-      <button class="escuro" onclick="mudarTom(-1)">− Tom</button>
-      <button class="verde" onclick="resetar()">Tom original</button>
-      <button class="escuro" onclick="mudarTom(1)">+ Tom</button>
-    </div>
 
-    <div class="cifra" id="cifra">
+      <button class="escuro" onclick="alterarTom(-1)">
+        − Baixar tom
+      </button>
 
-      <span class="acorde">[C]</span> Esta é uma música
-      <br>
-      <span class="acorde">[G]</span> para testar o CifraVerse
-      <br>
-      <span class="acorde">[Am]</span> Aqui ficam os acordes
-      <br>
-      <span class="acorde">[F]</span> acima da música
+      <button class="verde" onclick="tomOriginal()">
+        Tom original
+      </button>
+
+      <button class="escuro" onclick="alterarTom(1)">
+        + Subir tom
+      </button>
 
     </div>
+
+    <div class="controles">
+
+      <button class="escuro" onclick="alterarFonte(-2)">
+        A−
+      </button>
+
+      <button class="escuro" onclick="alterarFonte(2)">
+        A+
+      </button>
+
+    </div>
+
+    <br>
+
+    <div id="cifra"></div>
 
   </div>
 
@@ -113,17 +143,137 @@
 
 <script>
 
-let tom = 0;
+const acordes = [
+  "C",
+  "C#",
+  "D",
+  "D#",
+  "E",
+  "F",
+  "F#",
+  "G",
+  "G#",
+  "A",
+  "A#",
+  "B"
+];
 
-function mudarTom(valor) {
-  tom += valor;
-  alert("Tom alterado! Sistema de transposição será aprimorado na próxima etapa.");
+let deslocamento = 0;
+let tamanhoFonte = 20;
+
+const musica = [
+  ["C", "Esta é uma música"],
+  ["G", "para testar o CifraVerse"],
+  ["Am", "Aqui ficam os acordes"],
+  ["F", "acima da música"],
+  ["C", "Agora você pode mudar o tom"]
+];
+
+function separarAcorde(acorde) {
+
+  let nota = acorde.substring(0, 1);
+
+  if (
+    acorde.length > 1 &&
+    (acorde[1] === "#" || acorde[1] === "b")
+  ) {
+    nota = acorde.substring(0, 2);
+  }
+
+  let complemento = acorde.substring(nota.length);
+
+  return {
+    nota: nota,
+    complemento: complemento
+  };
 }
 
-function resetar() {
-  tom = 0;
-  alert("Tom original restaurado.");
+function mudarAcorde(acorde) {
+
+  const partes = separarAcorde(acorde);
+
+  let nota = partes.nota;
+
+  let indice = acordes.indexOf(nota);
+
+  if (indice === -1) {
+    return acorde;
+  }
+
+  indice = indice + deslocamento;
+
+  while (indice < 0) {
+    indice += acordes.length;
+  }
+
+  indice = indice % acordes.length;
+
+  return acordes[indice] + partes.complemento;
 }
+
+function mostrarMusica() {
+
+  const area = document.getElementById("cifra");
+
+  area.innerHTML = "";
+
+  musica.forEach(function(linha) {
+
+    const acorde = mudarAcorde(linha[0]);
+
+    const texto = linha[1];
+
+    const div = document.createElement("div");
+
+    div.innerHTML =
+      '<span class="acorde">[' +
+      acorde +
+      ']</span> ' +
+      texto;
+
+    area.appendChild(div);
+
+  });
+
+  document.getElementById("tomAtual").textContent =
+    mudarAcorde("C");
+
+  area.style.fontSize = tamanhoFonte + "px";
+}
+
+function alterarTom(valor) {
+
+  deslocamento += valor;
+
+  mostrarMusica();
+
+}
+
+function tomOriginal() {
+
+  deslocamento = 0;
+
+  mostrarMusica();
+
+}
+
+function alterarFonte(valor) {
+
+  tamanhoFonte += valor;
+
+  if (tamanhoFonte < 14) {
+    tamanhoFonte = 14;
+  }
+
+  if (tamanhoFonte > 32) {
+    tamanhoFonte = 32;
+  }
+
+  mostrarMusica();
+
+}
+
+mostrarMusica();
 
 </script>
 
