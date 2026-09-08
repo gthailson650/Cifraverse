@@ -1,11 +1,19 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
   <title>CifraVerse</title>
 
   <style>
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -136,144 +144,203 @@
     }
 
     @media (max-width: 600px) {
+
       .hero h1 {
         font-size: 32px;
       }
+
+      .song {
+        align-items: flex-start;
+      }
+
     }
+
   </style>
+
 </head>
 
 <body>
 
-<header>
-  <div class="container">
-    <div class="logo">🎵 CifraVerse</div>
-  </div>
-</header>
+  <header>
 
-<main class="container">
+    <div class="container">
 
-  <section class="hero">
-
-    <h1>Encontre sua cifra</h1>
-
-    <p>
-      Pesquise uma música ou artista e comece a tocar.
-    </p>
-
-    <form class="search" onsubmit="pesquisar(event)">
-
-      <input
-        id="campoBusca"
-        type="search"
-        placeholder="Qual música você quer tocar?"
-        autocomplete="off"
-      >
-
-      <button type="submit">
-        Buscar
-      </button>
-
-    </form>
-
-  </section>
-
-  <section class="card">
-
-    <h2>Cifras populares</h2>
-
-    <div id="resultado"></div>
-
-  </section>
-
-</main>
-
-<footer>
-  © 2026 CifraVerse — Seu espaço para aprender música.
-</footer>
-
-<script src="musicas.js"></script>
-
-<script>
-
-function mostrarMusicas(lista) {
-
-  const resultado = document.getElementById("resultado");
-
-  resultado.innerHTML = "";
-
-  if (lista.length === 0) {
-
-    resultado.innerHTML =
-      '<div class="nenhum">😕 Nenhuma música encontrada.</div>';
-
-    return;
-  }
-
-  lista.forEach(function(musica) {
-
-    resultado.innerHTML += `
-
-      <div class="song">
-
-        <div>
-
-          <div class="nome">
-            ${musica.nome}
-          </div>
-
-          <div class="artist">
-            ${musica.artista}
-          </div>
-
-          <div class="tom">
-            Tom: ${musica.tom}
-          </div>
-
-        </div>
-
-        <a
-          href="cifra.html?musica=${encodeURIComponent(musica.nome)}"
-          class="button"
-        >
-          Ver cifra
-        </a>
-
+      <div class="logo">
+        🎵 CifraVerse
       </div>
 
-    `;
+    </div>
 
-  });
-
-}
+  </header>
 
 
-function pesquisar(event) {
+  <main class="container">
 
-  event.preventDefault();
+    <section class="hero">
 
-  const busca = document
-    .getElementById("campoBusca")
-    .value
-    .toLowerCase()
-    .trim();
+      <h1>
+        Encontre sua cifra
+      </h1>
 
-  if (busca === "") {
+      <p>
+        Pesquise uma música ou artista e comece a tocar.
+      </p>
+
+
+      <form
+        class="search"
+        onsubmit="pesquisar(event)"
+      >
+
+        <input
+          id="campoBusca"
+          type="search"
+          placeholder="Qual música você quer tocar?"
+          autocomplete="off"
+        >
+
+        <button type="submit">
+          Buscar
+        </button>
+
+      </form>
+
+    </section>
+
+
+    <section class="card">
+
+      <h2>
+        Cifras populares
+      </h2>
+
+      <div id="resultado"></div>
+
+    </section>
+
+  </main>
+
+
+  <footer>
+
+    © 2026 CifraVerse —
+    Seu espaço para aprender música.
+
+  </footer>
+
+
+  <script src="musicas.js"></script>
+
+
+  <script>
+
+    function mostrarMusicas(lista) {
+
+      const resultado =
+        document.getElementById("resultado");
+
+      resultado.innerHTML = "";
+
+
+      if (!lista || lista.length === 0) {
+
+        resultado.innerHTML =
+          '<div class="nenhum">😕 Nenhuma música encontrada.</div>';
+
+        return;
+      }
+
+
+      lista.forEach(function(musica) {
+
+        resultado.innerHTML += `
+
+          <div class="song">
+
+            <div>
+
+              <div class="nome">
+                ${musica.nome}
+              </div>
+
+              <div class="artist">
+                ${musica.artista}
+              </div>
+
+              <div class="tom">
+                Tom: ${musica.tom}
+              </div>
+
+            </div>
+
+
+            <a
+              href="cifra.html?musica=${encodeURIComponent(musica.nome)}"
+              class="button"
+            >
+              Ver cifra
+            </a>
+
+          </div>
+
+        `;
+
+      });
+
+    }
+
+
+    function pesquisar(event) {
+
+      event.preventDefault();
+
+
+      const busca =
+        document
+          .getElementById("campoBusca")
+          .value
+          .toLowerCase()
+          .trim();
+
+
+      if (busca === "") {
+
+        mostrarMusicas(musicas);
+
+        return;
+      }
+
+
+      const resultados =
+        musicas.filter(function(musica) {
+
+          return (
+
+            musica.nome
+              .toLowerCase()
+              .includes(busca)
+
+            ||
+
+            musica.artista
+              .toLowerCase()
+              .includes(busca)
+
+          );
+
+        });
+
+
+      mostrarMusicas(resultados);
+
+    }
+
 
     mostrarMusicas(musicas);
 
-    return;
-  }
+  </script>
 
-  const resultados = musicas.filter(function(musica) {
 
-    return (
-      musica.nome.toLowerCase().includes(busca) ||
-      musica.artista.toLowerCase().includes(busca)
-    );
+</body>
 
-  });
-
-  mostrarMusicas(resultados);
-
-}
+</html>
