@@ -172,7 +172,7 @@ let tamanhoFonte = 20;
   Depois vamos substituir por conteúdo autorizado.
 */
 
-const cifrasDemo = {
+
 
   "Minha Música": [
     ["C", "Esta é uma música de exemplo"],
@@ -291,7 +291,7 @@ function mostrarCifra() {
 
 
   document.getElementById("tomAtual").textContent =
-    mudarAcorde(musicaEncontrada.tom);
+    dados ? mudarAcorde(dados.tom) : mudarAcorde(musicaEncontrada.tom);
 
 
   const area =
@@ -300,8 +300,9 @@ function mostrarCifra() {
   area.innerHTML = "";
 
 
-  const linhas =
-    cifrasDemo[musicaEncontrada.nome];
+  const dados = dadosCifras[musicaEncontrada.nome];
+
+const linhas = dados ? dados.linhas : null;
 
 
   if (!linhas) {
