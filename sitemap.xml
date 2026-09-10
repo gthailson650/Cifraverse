@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <url>
     <loc>https://gthailson650.github.io/Cifraverse/</loc>
+  </url>
+
+  <url>
+    <loc>https://gthailson650.github.io/Cifraverse/cifra.html?musica=Gra%C3%A7a</loc>
   </url>
 
 </urlset>
