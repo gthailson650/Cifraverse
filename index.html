@@ -2,62 +2,41 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<meta name="theme-color" content="#181410">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>CifraVerse — Cifras e músicas</title>
-<meta name="description" content="CifraVerse — encontre cifras, letras e acordes das suas músicas favoritas.">
-<meta name="robots" content="index, follow">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<meta name="description" content="CifraVerse — encontre cifras, acordes e músicas para tocar.">
+<meta name="robots" content="index, follow">
 
 <style>
 :root{
-  --bg:#181410;
-  --surface:#211b16;
-  --surface-2:#2a2219;
-  --ink:#ece3d2;
-  --ink-dim:#a89a86;
-  --chord:#dd9a45;
-  --accent:#5e8b7e;
-  --accent-ink:#0f1512;
-  --border:#392f26;
-  --danger:#a9564b;
-  --font-size:19px;
-}
-
-body.light{
-  --bg:#efe9dc;
-  --surface:#f7f3e9;
-  --surface-2:#e9e1cf;
-  --ink:#241e17;
-  --ink-dim:#6d6250;
-  --chord:#a1591c;
-  --accent:#3f6b5e;
-  --accent-ink:#f7f3e9;
-  --border:#d8cdb4;
-  --danger:#9b4338;
+  --bg:#0d0f12;
+  --card:#15181d;
+  --card2:#1c2026;
+  --text:#f5f5f5;
+  --muted:#9da4ad;
+  --accent:#7c5cff;
+  --accent2:#6244e8;
+  --border:#2a2f37;
+  --chord:#ffcc66;
 }
 
 *{
   box-sizing:border-box;
 }
 
-html,body{
-  margin:0;
-  min-height:100%;
-}
-
 body{
+  margin:0;
   background:var(--bg);
-  color:var(--ink);
-  font-family:'Space Mono',monospace;
-  -webkit-tap-highlight-color:transparent;
-  transition:.25s;
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
 }
 
-button,input,textarea{
+button,
+input,
+textarea,
+select{
   font:inherit;
 }
 
@@ -65,566 +44,327 @@ button{
   cursor:pointer;
 }
 
-.hidden{
-  display:none!important;
-}
-
-/* =========================
-   APP
-========================= */
-
-#app{
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-}
-
-/* =========================
-   HEADER
-========================= */
-
 header{
-  padding:16px;
-  background:var(--surface);
-  border-bottom:1px solid var(--border);
   position:sticky;
   top:0;
   z-index:20;
+  background:rgba(13,15,18,.96);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(10px);
 }
 
-.topbar{
-  display:flex;
-  align-items:center;
-  gap:12px;
+.header-inner{
   max-width:1100px;
   margin:auto;
+  padding:14px 18px;
+  display:flex;
+  align-items:center;
+  gap:15px;
 }
 
 .logo{
+  font-size:25px;
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.logo span{
+  color:var(--accent);
+}
+
+.search{
   flex:1;
 }
 
-.logo h1{
-  margin:0;
-  font-family:'Fraunces',serif;
-  font-size:27px;
-  font-weight:700;
-  letter-spacing:.2px;
-}
-
-.logo h1 span{
-  color:var(--chord);
-}
-
-.logo small{
-  color:var(--ink-dim);
-  font-size:10px;
-}
-
-.header-buttons{
-  display:flex;
-  gap:7px;
-}
-
-.icon-btn{
-  width:40px;
-  height:40px;
-  border:1px solid var(--border);
-  border-radius:10px;
-  background:var(--surface-2);
-  color:var(--ink);
-}
-
-/* =========================
-   HOME
-========================= */
-
-#home{
+.search input{
   width:100%;
+  padding:12px 15px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:var(--card);
+  color:var(--text);
+  outline:none;
+}
+
+.search input:focus{
+  border-color:var(--accent);
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:25px 18px 60px;
 }
 
 .hero{
-  max-width:900px;
-  margin:auto;
-  padding:50px 18px 35px;
-  text-align:center;
+  padding:35px 0 25px;
 }
 
-.hero h2{
-  font-family:'Fraunces',serif;
-  font-size:42px;
+.hero h1{
   margin:0 0 10px;
+  font-size:38px;
 }
 
 .hero p{
-  margin:0 auto 25px;
-  color:var(--ink-dim);
-  max-width:650px;
-  line-height:1.6;
-}
-
-.search-box{
-  display:flex;
-  max-width:700px;
-  margin:auto;
-  background:var(--surface);
-  border:1px solid var(--border);
-  border-radius:13px;
-  overflow:hidden;
-}
-
-.search-box input{
-  flex:1;
-  min-width:0;
-  border:0;
-  outline:0;
-  padding:16px;
-  background:transparent;
-  color:var(--ink);
-  font-size:15px;
-}
-
-.search-box input::placeholder{
-  color:var(--ink-dim);
-}
-
-.search-box button{
-  border:0;
-  background:var(--accent);
-  color:var(--accent-ink);
-  padding:0 20px;
-  font-weight:700;
-}
-
-.home-content{
-  max-width:1100px;
-  margin:auto;
-  padding:10px 16px 50px;
+  color:var(--muted);
+  margin:0;
 }
 
 .section-title{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  margin:20px 0 12px;
+  gap:10px;
+  margin:25px 0 14px;
 }
 
-.section-title h3{
-  font-family:'Fraunces',serif;
-  font-size:22px;
+.section-title h2{
   margin:0;
 }
 
-.music-count{
-  color:var(--ink-dim);
-  font-size:12px;
-}
-
-.music-grid{
+.music-list{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-  gap:10px;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:14px;
 }
 
 .music-card{
+  background:var(--card);
   border:1px solid var(--border);
-  background:var(--surface);
-  border-radius:12px;
-  padding:16px;
+  border-radius:14px;
+  padding:18px;
   transition:.2s;
 }
 
-.music-card:active{
-  transform:scale(.98);
-}
-
 .music-card:hover{
+  transform:translateY(-2px);
   border-color:var(--accent);
 }
 
-.music-card h4{
+.music-card h3{
   margin:0 0 7px;
-  font-family:'Fraunces',serif;
-  font-size:19px;
+  font-size:20px;
 }
 
 .music-card p{
-  margin:0;
-  color:var(--ink-dim);
-  font-size:12px;
+  color:var(--muted);
+  margin:5px 0;
 }
 
-.music-card .card-bottom{
-  margin-top:14px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.tom{
+.key{
+  display:inline-block;
+  margin-top:10px;
+  padding:5px 9px;
+  border-radius:7px;
+  background:var(--card2);
   color:var(--chord);
-  font-weight:700;
+  font-weight:bold;
 }
 
-.open-link{
-  color:var(--accent);
-  font-size:12px;
-}
-
-.empty{
-  padding:35px 10px;
-  text-align:center;
-  color:var(--ink-dim);
-}
-
-/* =========================
-   VIEW
-========================= */
-
-#songView{
-  flex:1;
-}
-
-.song-header{
-  max-width:900px;
-  margin:auto;
-  padding:28px 18px 12px;
-}
-
-.back{
+.btn{
   border:0;
-  background:transparent;
-  color:var(--accent);
-  padding:0;
-  margin-bottom:15px;
-}
-
-.song-title{
-  font-family:'Fraunces',serif;
-  font-size:32px;
-  margin:0;
-}
-
-.song-artist{
-  margin-top:5px;
-  color:var(--ink-dim);
-  font-size:13px;
-}
-
-.toolbar{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  padding:10px 16px;
-  background:var(--surface);
-  border-top:1px solid var(--border);
-  border-bottom:1px solid var(--border);
-  position:sticky;
-  top:73px;
-  z-index:15;
-}
-
-.toolbar-inner{
-  width:100%;
-  max-width:900px;
-  margin:auto;
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-}
-
-.group{
-  display:flex;
-  align-items:center;
-  background:var(--surface-2);
-  border:1px solid var(--border);
   border-radius:9px;
-  overflow:hidden;
-}
-
-.group button{
-  border:0;
-  background:transparent;
-  color:var(--ink);
-  padding:8px 12px;
-  min-height:38px;
-}
-
-.group .label{
-  padding:0 10px;
-  color:var(--ink-dim);
-  font-size:12px;
-  border-left:1px solid var(--border);
-  border-right:1px solid var(--border);
-  min-width:65px;
-  text-align:center;
-}
-
-.toggle-btn{
-  border:1px solid var(--border);
-  background:var(--surface-2);
-  color:var(--ink);
-  border-radius:9px;
-  padding:8px 12px;
-  min-height:38px;
-  font-size:12px;
-}
-
-.toggle-btn.active{
+  padding:10px 14px;
   background:var(--accent);
-  border-color:var(--accent);
-  color:var(--accent-ink);
+  color:white;
+  font-weight:bold;
+}
+
+.btn:hover{
+  background:var(--accent2);
+}
+
+.btn.secondary{
+  background:var(--card2);
+  border:1px solid var(--border);
+}
+
+.btn.danger{
+  background:#b52b3c;
 }
 
 .viewer{
-  max-width:900px;
-  margin:auto;
-  padding:25px 18px 80px;
-  font-size:var(--font-size);
-  line-height:1.65;
+  display:none;
 }
 
-.chordline{
-  white-space:pre;
-  color:var(--chord);
-  font-weight:700;
-  min-height:1.5em;
+.viewer.active{
+  display:block;
 }
 
-.lyricline{
+.home.hidden{
+  display:none;
+}
+
+.song-header{
+  padding:20px 0;
+}
+
+.song-header h1{
+  margin:0 0 7px;
+  font-size:34px;
+}
+
+.song-header p{
+  color:var(--muted);
+  margin:0;
+}
+
+.toolbar{
+  position:sticky;
+  top:64px;
+  z-index:10;
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  padding:12px;
+  margin-bottom:20px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+}
+
+.toolbar button{
+  padding:8px 11px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  background:var(--card2);
+  color:var(--text);
+}
+
+.toolbar button:hover{
+  border-color:var(--accent);
+}
+
+.cifra{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:22px;
+  overflow:auto;
+  font-family:"Courier New",monospace;
+  font-size:18px;
+  line-height:1.75;
   white-space:pre-wrap;
-  color:var(--ink);
-  margin-bottom:3px;
-}
-
-.section{
-  color:var(--ink-dim);
-  font-style:italic;
-  margin:18px 0 7px;
-  font-size:.9em;
+  min-height:300px;
 }
 
 .chord{
   color:var(--chord);
-  font-weight:700;
+  font-weight:bold;
 }
 
-.blank{
-  height:.8em;
+.admin{
+  display:none;
 }
 
-/* =========================
-   AUTOSCROLL
-========================= */
-
-.speed-row{
-  max-width:900px;
-  margin:auto;
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:5px 0 2px;
-}
-
-.speed-row span{
-  font-size:11px;
-  color:var(--ink-dim);
-}
-
-.speed-row input{
-  flex:1;
-}
-
-/* =========================
-   ADMIN
-========================= */
-
-#admin{
-  max-width:900px;
-  width:100%;
-  margin:auto;
-  padding:30px 16px 70px;
-}
-
-.admin-title{
-  font-family:'Fraunces',serif;
-  font-size:32px;
-  margin:0 0 7px;
-}
-
-.admin-subtitle{
-  color:var(--ink-dim);
-  font-size:12px;
-  line-height:1.6;
-}
-
-.form{
-  margin-top:25px;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-
-.field{
-  display:flex;
-  flex-direction:column;
-  gap:6px;
-}
-
-.field label{
-  font-size:12px;
-  color:var(--ink-dim);
-}
-
-.field input,
-.field textarea{
-  width:100%;
-  border:1px solid var(--border);
-  border-radius:10px;
-  background:var(--surface);
-  color:var(--ink);
-  outline:none;
-  padding:13px;
-}
-
-.field textarea{
-  min-height:330px;
-  resize:vertical;
-  line-height:1.6;
-}
-
-.field input:focus,
-.field textarea:focus{
-  border-color:var(--accent);
-}
-
-.primary{
-  border:0;
-  background:var(--accent);
-  color:var(--accent-ink);
-  border-radius:10px;
-  padding:14px;
-  font-weight:700;
-}
-
-.secondary{
-  border:1px solid var(--border);
-  background:transparent;
-  color:var(--ink);
-  border-radius:10px;
-  padding:12px;
-}
-
-.danger{
-  border:1px solid var(--danger);
-  background:transparent;
-  color:var(--danger);
-  border-radius:8px;
-  padding:7px 10px;
-  font-size:11px;
-}
-
-.admin-list{
-  margin-top:35px;
-}
-
-.admin-item{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  border-bottom:1px solid var(--border);
-  padding:13px 0;
-}
-
-.admin-item-info{
-  flex:1;
-}
-
-.admin-item-info strong{
+.admin.active{
   display:block;
-  font-family:'Fraunces',serif;
 }
 
-.admin-item-info small{
-  color:var(--ink-dim);
-}
-
-/* =========================
-   TOAST
-========================= */
-
-#toast{
-  position:fixed;
-  bottom:20px;
-  left:50%;
-  transform:translateX(-50%) translateY(20px);
-  background:var(--surface-2);
-  color:var(--ink);
+.admin-box{
+  background:var(--card);
   border:1px solid var(--border);
-  padding:12px 16px;
-  border-radius:10px;
-  font-size:12px;
-  opacity:0;
-  pointer-events:none;
-  transition:.25s;
-  z-index:100;
+  border-radius:14px;
+  padding:20px;
+  margin-top:20px;
 }
 
-#toast.show{
-  opacity:1;
-  transform:translateX(-50%) translateY(0);
+.admin-box h2{
+  margin-top:0;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
+.form-group{
+  margin-bottom:15px;
+}
 
-@media(max-width:600px){
+.form-group label{
+  display:block;
+  margin-bottom:7px;
+  font-weight:bold;
+}
 
-  .hero{
-    padding-top:35px;
+.form-group input,
+.form-group textarea{
+  width:100%;
+  padding:12px;
+  border:1px solid var(--border);
+  border-radius:9px;
+  background:var(--card2);
+  color:var(--text);
+  outline:none;
+}
+
+.form-group textarea{
+  min-height:300px;
+  resize:vertical;
+  font-family:"Courier New",monospace;
+}
+
+.status{
+  padding:12px;
+  margin:12px 0;
+  border-radius:9px;
+  display:none;
+}
+
+.status.show{
+  display:block;
+  background:var(--card2);
+}
+
+.empty{
+  padding:30px;
+  text-align:center;
+  color:var(--muted);
+  border:1px dashed var(--border);
+  border-radius:12px;
+}
+
+.loading{
+  padding:25px;
+  text-align:center;
+  color:var(--muted);
+}
+
+footer{
+  border-top:1px solid var(--border);
+  margin-top:40px;
+  padding:25px 18px;
+  color:var(--muted);
+  text-align:center;
+}
+
+.admin-link{
+  color:var(--muted);
+  text-decoration:none;
+  font-size:13px;
+}
+
+@media(max-width:650px){
+
+  .header-inner{
+    flex-wrap:wrap;
   }
 
-  .hero h2{
-    font-size:34px;
+  .logo{
+    width:100%;
   }
 
-  .search-box{
-    display:flex;
+  .hero h1{
+    font-size:30px;
   }
 
-  .search-box button{
-    padding:0 14px;
-  }
-
-  .toolbar{
-    top:73px;
-  }
-
-  .toolbar-inner{
-    gap:6px;
-  }
-
-  .toggle-btn{
-    flex:1;
-  }
-
-  .music-grid{
-    grid-template-columns:1fr;
-  }
-
-  .song-title{
+  .song-header h1{
     font-size:28px;
   }
 
-  .viewer{
-    padding-left:14px;
-    padding-right:14px;
+  .toolbar{
+    top:103px;
   }
 
-  .header-buttons .icon-btn{
-    width:37px;
-    height:37px;
+  .cifra{
+    font-size:16px;
+    padding:16px;
   }
 }
 </style>
@@ -632,2119 +372,1141 @@ header{
 
 <body>
 
-<div id="app">
-
 <header>
-  <div class="topbar">
+  <div class="header-inner">
 
     <div class="logo">
-      <h1>Cifra<span>Verse</span></h1>
-      <small>cifras para tocar</small>
+      Cifra<span>Verse</span>
     </div>
 
-    <div class="header-buttons">
-      <button class="icon-btn" id="themeBtn" title="Alterar tema">☀</button>
-      <button class="icon-btn" id="adminBtn" title="Painel">⚙</button>
+    <div class="search">
+      <input
+        id="campoBusca"
+        type="search"
+        placeholder="Buscar música ou artista..."
+        oninput="pesquisar()"
+      >
     </div>
 
   </div>
 </header>
 
+<main class="container">
 
-<!-- =========================
-     HOME
-========================= -->
+  <!-- INÍCIO -->
+  <section id="home" class="home">
 
-<section id="home">
-
-  <div class="hero">
-
-    <h2>Encontre sua música.</h2>
-
-    <p>
-      Pesquise cifras, letras e acordes.
-      Escolha o tom e comece a tocar.
-    </p>
-
-    <div class="search-box">
-
-      <input
-        id="searchInput"
-        type="search"
-        placeholder="Digite música ou artista..."
-        autocomplete="off"
-      >
-
-      <button id="searchBtn">
-        Buscar
-      </button>
-
+    <div class="hero">
+      <h1>Encontre sua música.</h1>
+      <p>Cifras, acordes e músicas para você tocar.</p>
     </div>
-
-  </div>
-
-
-  <div class="home-content">
 
     <div class="section-title">
-
-      <h3 id="listTitle">
-        Músicas
-      </h3>
-
-      <span class="music-count" id="musicCount"></span>
-
+      <h2>Músicas</h2>
     </div>
 
-    <div class="music-grid" id="musicGrid"></div>
+    <div id="listaMusicas" class="music-list">
+      <div class="loading">Carregando músicas...</div>
+    </div>
 
-  </div>
-
-</section>
-
-
-<!-- =========================
-     SONG
-========================= -->
-
-<section id="songView" class="hidden">
-
-  <div class="song-header">
-
-    <button class="back" id="backBtn">
-      ← Voltar
-    </button>
-
-    <h1 class="song-title" id="songTitle">
-      Música
-    </h1>
-
-    <div class="song-artist" id="songArtist"></div>
-
-  </div>
+  </section>
 
 
-  <div class="toolbar">
+  <!-- CIFRA -->
+  <section id="viewer" class="viewer">
 
-    <div class="toolbar-inner">
-
-      <div class="group">
-
-        <button id="transDown">
-          −
-        </button>
-
-        <div class="label" id="transLabel">
-          Tom orig.
-        </div>
-
-        <button id="transUp">
-          +
-        </button>
-
-      </div>
-
-
-      <div class="group">
-
-        <button id="fontDown">
-          A−
-        </button>
-
-        <div class="label" id="fontLabel">
-          19px
-        </div>
-
-        <button id="fontUp">
-          A+
-        </button>
-
-      </div>
-
-
-      <button
-        class="toggle-btn active"
-        id="chordBtn">
-        Cifra visível
+    <div class="song-header">
+      <button class="btn secondary" onclick="voltarInicio()">
+        ← Voltar
       </button>
 
+      <h1 id="songTitle"></h1>
+      <p id="songArtist"></p>
+    </div>
 
-      <button
-        class="toggle-btn"
-        id="scrollBtn">
-        Rolagem auto
+    <div class="toolbar">
+
+      <button onclick="transpor(-1)">
+        − Tom
       </button>
 
-
-      <button
-        class="toggle-btn"
-        id="favoriteBtn">
-        ♡ Favoritar
-      </button>
-
-
-      <div
-        class="speed-row hidden"
-        id="speedRow">
-
-        <span>
-          Velocidade
-        </span>
-
-        <input
-          id="scrollSpeed"
-          type="range"
-          min="1"
-          max="10"
-          value="4"
-        >
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div
-    class="viewer"
-    id="viewer">
-  </div>
-
-</section>
-
-
-<!-- =========================
-     ADMIN
-========================= -->
-
-<section id="admin" class="hidden">
-
-  <button
-    class="back"
-    id="adminBack">
-    ← Voltar
-  </button>
-
-  <h1 class="admin-title">
-    Painel CifraVerse
-  </h1>
-
-  <p class="admin-subtitle">
-    Cadastre suas músicas. Nesta versão os dados ficam
-    salvos neste navegador. Depois podemos conectar
-    diretamente ao Supabase.
-  </p>
-
-
-  <div class="form">
-
-    <div class="field">
-
-      <label>
-        Nome da música
-      </label>
-
-      <input
-        id="newTitle"
-        maxlength="100"
-        placeholder="Ex.: Graça"
-      >
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
-        Artista
-      </label>
-
-      <input
-        id="newArtist"
-        maxlength="100"
-        placeholder="Ex.: Gilmar Brito"
-      >
-
-    </div>
-
-
-    <div class="field">
-
-      <label>
+      <button onclick="resetTom()">
         Tom original
-      </label>
+      </button>
 
-      <input
-        id="newKey"
-        maxlength="10"
-        placeholder="Ex.: G"
-      >
+      <button onclick="transpor(1)">
+        + Tom
+      </button>
+
+      <button onclick="alterarFonte(-1)">
+        A−
+      </button>
+
+      <button onclick="alterarFonte(1)">
+        A+
+      </button>
+
+      <button onclick="alternarAcordes()">
+        Acordes
+      </button>
+
+      <button onclick="alternarRolagem()">
+        Rolagem
+      </button>
+
+      <button onclick="alternarTema()">
+        Tema
+      </button>
 
     </div>
 
+    <div id="cifraViewer" class="cifra"></div>
 
-    <div class="field">
+  </section>
 
-      <label>
-        Cifra / letra
-      </label>
 
-      <textarea
-        id="newLyrics"
-        spellcheck="false"
-        placeholder="Cole sua cifra aqui...
+  <!-- ADMIN -->
+  <section id="admin" class="admin">
+
+    <div class="admin-box">
+
+      <button class="btn secondary" onclick="voltarInicio()">
+        ← Voltar
+      </button>
+
+      <h2>Cadastrar música</h2>
+
+      <p style="color:var(--muted)">
+        Cadastre uma nova cifra no CifraVerse.
+      </p>
+
+      <div id="status" class="status"></div>
+
+      <div class="form-group">
+        <label for="nome">Nome da música</label>
+        <input id="nome" placeholder="Ex.: Graça">
+      </div>
+
+      <div class="form-group">
+        <label for="artista">Artista</label>
+        <input id="artista" placeholder="Ex.: Gilmar Brito">
+      </div>
+
+      <div class="form-group">
+        <label for="tom">Tom</label>
+        <input id="tom" placeholder="Ex.: G">
+      </div>
+
+      <div class="form-group">
+        <label for="cifra">Cifra / Letra</label>
+
+        <textarea
+          id="cifra"
+          placeholder="Cole aqui a letra com os acordes.
 
 Exemplo:
 
-G             D
-Minha música
+[G]Graça
+        [C]maravilhosa
+        [G]é o amor..."
+        ></textarea>
+      </div>
 
-Em            C
-Aqui está a letra
-
-Ou:
-
-[G]Minha música
-[D]começa aqui">
-      </textarea>
+      <button class="btn" onclick="cadastrarMusica()">
+        Cadastrar música
+      </button>
 
     </div>
 
+    <div class="admin-box">
 
-    <button
-      class="primary"
-      id="saveMusic">
-      + Cadastrar música
-    </button>
+      <h2>Músicas cadastradas</h2>
 
-    <button
-      class="secondary"
-      id="clearForm">
-      Limpar
-    </button>
-
-  </div>
-
-
-  <div class="admin-list">
-
-    <div class="section-title">
-
-      <h3>
-        Músicas cadastradas
-      </h3>
+      <div id="adminLista">
+        <div class="loading">Carregando...</div>
+      </div>
 
     </div>
 
-    <div id="adminMusicList"></div>
+  </section>
 
+</main>
+
+
+<footer>
+
+  <div>
+    © 2026 CifraVerse
   </div>
 
-</section>
+  <br>
 
+  <a
+    href="?admin=1"
+    class="admin-link"
+  >
+    Área administrativa
+  </a>
 
-<div id="toast"></div>
-
-</div>
+</footer>
 
 
 <script>
-(function(){
 
-"use strict";
+/* =========================================================
+   CONFIGURAÇÃO DO SUPABASE
+   ========================================================= */
+
+const SUPABASE_URL =
+"https://jqnxnqxdsdutrwuvonnv.supabase.co";
+
+/*
+   COLE AQUI A SUA PUBLISHABLE KEY DO SUPABASE.
+
+   NÃO coloque a Secret Key / service_role.
+*/
+
+const SUPABASE_KEY =
+sb_publishable_W6w3YfaBDWjbTSQV8ZpFQA_vqigXS4Q
 
 
-/* ==========================================
-   DADOS INICIAIS
-========================================== */
+const API_URL =
+SUPABASE_URL + "/rest/v1/musicas";
 
-const DEFAULT_MUSICS = [
 
-{
-  id:"graca-gilmar-brito",
-  title:"Graça",
-  artist:"Gilmar Brito",
-  key:"G",
-  lyrics:
-`G                 D
-Graça que me alcançou
-Em                C
-Graça que me salvou
+/* =========================================================
+   ESTADO DO APLICATIVO
+   ========================================================= */
 
-G                  D
-Mesmo sem eu merecer
-Em                 C
-Ele escolheu me amar
+let musicas = [];
 
-[Refrão]
+let musicaAtual = null;
 
-G                D
-Sua graça me sustenta
-Em               C
-Sua graça me faz viver`
-},
+let tomOriginal = null;
 
-{
-  id:"minha-musica",
-  title:"Minha Música",
-  artist:"CifraVerse",
-  key:"C",
-  lyrics:
-`C             G
-Essa é uma cifra de exemplo
+let tomAtual = null;
 
-Am            F
-Cole sua letra aqui
+let tamanhoFonte = 18;
 
-C             G
-Os acordes ficam
-F
-na linha de cima
+let mostrarAcordes = true;
 
-[Refrão]
+let intervaloRolagem = null;
 
-C             G
-Agora você pode
-Am            F
-transpor o tom`
-},
 
-{
-  id:"outra-musica",
-  title:"Outra Música",
-  artist:"CifraVerse",
-  key:"G",
-  lyrics:
-`G              D
-Essa é outra música
+/* =========================================================
+   ACORDES
+   ========================================================= */
 
-Em             C
-Para testar o aplicativo
-
-G              D
-Você pode aumentar
-C
-o tamanho da cifra`
-}
-
+const NOTAS = [
+  "C",
+  "C#",
+  "D",
+  "D#",
+  "E",
+  "F",
+  "F#",
+  "G",
+  "G#",
+  "A",
+  "A#",
+  "B"
 ];
 
-
-/* ==========================================
-   ESTADO
-========================================== */
-
-let musics = loadMusics();
-
-let state = {
-
-  currentMusic:null,
-
-  steps:0,
-
-  fontSize:19,
-
-  showChords:true,
-
-  autoscroll:false,
-
-  scrollSpeed:4,
-
-  light:false
-
+const MAPA_BEMOL = {
+  "Db":"C#",
+  "Eb":"D#",
+  "Gb":"F#",
+  "Ab":"G#",
+  "Bb":"A#"
 };
 
 
-let scrollTimer = null;
+/* =========================================================
+   INICIALIZAÇÃO
+   ========================================================= */
+
+document.addEventListener("DOMContentLoaded", function(){
+
+  carregarMusicas();
+
+  if(new URLSearchParams(location.search).get("admin") === "1"){
+    abrirAdmin();
+  }
+
+});
 
 
-/* ==========================================
-   ELEMENTOS
-========================================== */
+/* =========================================================
+   CARREGAR DO SUPABASE
+   ========================================================= */
 
-const home =
-document.getElementById("home");
+async function carregarMusicas(){
 
-const songView =
-document.getElementById("songView");
+  const lista = document.getElementById("listaMusicas");
 
-const admin =
-document.getElementById("admin");
-
-const musicGrid =
-document.getElementById("musicGrid");
-
-const searchInput =
-document.getElementById("searchInput");
-
-const viewer =
-document.getElementById("viewer");
-
-const songTitle =
-document.getElementById("songTitle");
-
-const songArtist =
-document.getElementById("songArtist");
-
-const transLabel =
-document.getElementById("transLabel");
-
-const fontLabel =
-document.getElementById("fontLabel");
-
-const chordBtn =
-document.getElementById("chordBtn");
-
-const scrollBtn =
-document.getElementById("scrollBtn");
-
-const favoriteBtn =
-document.getElementById("favoriteBtn");
-
-const speedRow =
-document.getElementById("speedRow");
-
-const toast =
-document.getElementById("toast");
-
-
-/* ==========================================
-   LOCAL STORAGE
-========================================== */
-
-function loadMusics(){
+  lista.innerHTML =
+    '<div class="loading">Carregando músicas...</div>';
 
   try{
 
-    const saved =
-      localStorage.getItem("cifraverse_musics");
-
-    if(saved){
-
-      const parsed =
-        JSON.parse(saved);
-
-      if(Array.isArray(parsed) &&
-         parsed.length){
-
-        return parsed;
+    const resposta = await fetch(
+      API_URL +
+      "?select=id,created_at,nome,artista,tom,cifra&order=created_at.desc",
+      {
+        method:"GET",
+        headers:{
+          "apikey":SUPABASE_KEY,
+          "Authorization":"Bearer " + SUPABASE_KEY
+        }
       }
+    );
+
+    if(!resposta.ok){
+
+      const erro = await resposta.text();
+
+      throw new Error(erro);
+    }
+
+    const dados = await resposta.json();
+
+    musicas = dados || [];
+
+    mostrarMusicas(musicas);
+
+    carregarAdminLista();
+
+  }catch(erro){
+
+    console.error(erro);
+
+    lista.innerHTML = `
+      <div class="empty">
+        Não foi possível carregar as músicas.
+        <br><br>
+        Verifique a Publishable Key e a política SELECT do Supabase.
+      </div>
+    `;
+
+  }
+
+}
+
+
+/* =========================================================
+   MOSTRAR MÚSICAS
+   ========================================================= */
+
+function mostrarMusicas(lista){
+
+  const elemento =
+    document.getElementById("listaMusicas");
+
+  if(!lista.length){
+
+    elemento.innerHTML = `
+      <div class="empty">
+        Ainda não existem músicas cadastradas.
+      </div>
+    `;
+
+    return;
+  }
+
+  elemento.innerHTML = lista.map(function(musica){
+
+    return `
+      <article class="music-card">
+
+        <h3>${escapar(musica.nome || "Sem título")}</h3>
+
+        <p>
+          ${escapar(musica.artista || "Artista não informado")}
+        </p>
+
+        ${
+          musica.tom
+          ?
+          `<span class="key">${escapar(musica.tom)}</span>`
+          :
+          ""
+        }
+
+        <br><br>
+
+        <button
+          class="btn"
+          onclick="abrirMusica('${escaparJS(String(musica.id))}')"
+        >
+          Ver cifra
+        </button>
+
+      </article>
+    `;
+
+  }).join("");
+
+}
+
+
+/* =========================================================
+   PESQUISA
+   ========================================================= */
+
+function pesquisar(){
+
+  const termo =
+    document
+      .getElementById("campoBusca")
+      .value
+      .toLowerCase()
+      .trim();
+
+  if(!termo){
+
+    mostrarMusicas(musicas);
+
+    return;
+  }
+
+  const resultado =
+    musicas.filter(function(musica){
+
+      return (
+        String(musica.nome || "")
+          .toLowerCase()
+          .includes(termo)
+        ||
+        String(musica.artista || "")
+          .toLowerCase()
+          .includes(termo)
+      );
+
+    });
+
+  mostrarMusicas(resultado);
+
+}
+
+
+/* =========================================================
+   ABRIR MÚSICA
+   ========================================================= */
+
+function abrirMusica(id){
+
+  const musica =
+    musicas.find(function(item){
+
+      return String(item.id) === String(id);
+
+    });
+
+  if(!musica) return;
+
+  musicaAtual = musica;
+
+  tomOriginal = musica.tom || "C";
+
+  tomAtual = tomOriginal;
+
+  document.getElementById("home")
+    .classList.add("hidden");
+
+  document.getElementById("admin")
+    .classList.remove("active");
+
+  document.getElementById("viewer")
+    .classList.add("active");
+
+  document.getElementById("songTitle")
+    .textContent = musica.nome || "Sem título";
+
+  document.getElementById("songArtist")
+    .textContent = musica.artista || "";
+
+  tamanhoFonte = 18;
+
+  renderizarCifra();
+
+  history.replaceState(
+    null,
+    "",
+    "?musica=" + encodeURIComponent(musica.id)
+  );
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* =========================================================
+   RENDERIZAR CIFRA
+   ========================================================= */
+
+function renderizarCifra(){
+
+  if(!musicaAtual) return;
+
+  let texto =
+    musicaAtual.cifra || "";
+
+  texto =
+    aplicarTransposicao(
+      texto,
+      tomOriginal,
+      tomAtual
+    );
+
+  const elemento =
+    document.getElementById("cifraViewer");
+
+  elemento.style.fontSize =
+    tamanhoFonte + "px";
+
+  elemento.innerHTML =
+    formatarCifra(texto);
+
+}
+
+
+/* =========================================================
+   FORMATAR CIFRA
+   ========================================================= */
+
+function formatarCifra(texto){
+
+  const linhas =
+    texto.split("\n");
+
+  return linhas.map(function(linha){
+
+    if(!mostrarAcordes){
+
+      linha =
+        linha.replace(
+          /\[([^\]]+)\]/g,
+          ""
+        );
+
+      return escapar(linha);
 
     }
 
-  }catch(error){
+    let resultado =
+      escapar(linha);
 
-    console.log(error);
+    resultado =
+      resultado.replace(
+        /\[([^\]]+)\]/g,
+        '<span class="chord">[$1]</span>'
+      );
 
-  }
+    return resultado;
 
-  return DEFAULT_MUSICS.map(m => ({...m}));
+  }).join("\n");
 
 }
 
 
-function saveMusics(){
+/* =========================================================
+   TRANSPOSIÇÃO
+   ========================================================= */
 
-  localStorage.setItem(
-    "cifraverse_musics",
-    JSON.stringify(musics)
+function transpor(semitons){
+
+  if(!musicaAtual) return;
+
+  tomAtual =
+    mudarTom(
+      tomAtual,
+      semitons
+    );
+
+  renderizarCifra();
+
+}
+
+
+function resetTom(){
+
+  if(!musicaAtual) return;
+
+  tomAtual = tomOriginal;
+
+  renderizarCifra();
+
+}
+
+
+function mudarTom(tom, quantidade){
+
+  if(!tom) return tom;
+
+  const limpo =
+    tom.trim();
+
+  const encontrado =
+    /^([A-Ga-g])([#b]?)/.exec(limpo);
+
+  if(!encontrado){
+
+    return tom;
+  }
+
+  let nota =
+    encontrado[1].toUpperCase()
+    +
+    (encontrado[2] || "");
+
+  nota =
+    MAPA_BEMOL[nota] || nota;
+
+  let indice =
+    NOTAS.indexOf(nota);
+
+  if(indice < 0){
+
+    return tom;
+  }
+
+  indice =
+    (indice + quantidade + 12) % 12;
+
+  return NOTAS[indice];
+
+}
+
+
+function aplicarTransposicao(
+  texto,
+  origem,
+  destino
+){
+
+  if(!origem || !destino) return texto;
+
+  const notaOrigem =
+    normalizarNota(origem);
+
+  const notaDestino =
+    normalizarNota(destino);
+
+  const iOrigem =
+    NOTAS.indexOf(notaOrigem);
+
+  const iDestino =
+    NOTAS.indexOf(notaDestino);
+
+  if(
+    iOrigem < 0 ||
+    iDestino < 0
+  ){
+
+    return texto;
+  }
+
+  const diferenca =
+    iDestino - iOrigem;
+
+  return texto.replace(
+    /\[([A-Ga-g](?:#|b)?(?:m|maj|min|dim|aug|sus|add)?[0-9]*(?:\/[A-Ga-g](?:#|b)?)?)\]/g,
+    function(_, acorde){
+
+      return "[" +
+        transporAcorde(
+          acorde,
+          diferenca
+        )
+        +
+        "]";
+
+    }
   );
 
 }
 
 
-/* ==========================================
-   FAVORITOS
-========================================== */
+function normalizarNota(nota){
 
-function getFavorites(){
+  const encontrada =
+    /^([A-Ga-g])([#b]?)/.exec(
+      nota || ""
+    );
+
+  if(!encontrada) return "";
+
+  let resultado =
+    encontrada[1].toUpperCase()
+    +
+    (encontrada[2] || "");
+
+  return MAPA_BEMOL[resultado] || resultado;
+
+}
+
+
+function transporAcorde(
+  acorde,
+  quantidade
+){
+
+  const partes =
+    acorde.split("/");
+
+  const principal =
+    transporParteAcorde(
+      partes[0],
+      quantidade
+    );
+
+  if(partes[1]){
+
+    return principal +
+      "/" +
+      transporParteAcorde(
+        partes[1],
+        quantidade
+      );
+
+  }
+
+  return principal;
+
+}
+
+
+function transporParteAcorde(
+  acorde,
+  quantidade
+){
+
+  const encontrado =
+    /^([A-Ga-g])([#b]?)(.*)$/.exec(
+      acorde
+    );
+
+  if(!encontrado){
+
+    return acorde;
+  }
+
+  let nota =
+    encontrado[1].toUpperCase()
+    +
+    (encontrado[2] || "");
+
+  nota =
+    MAPA_BEMOL[nota] || nota;
+
+  let indice =
+    NOTAS.indexOf(nota);
+
+  if(indice < 0){
+
+    return acorde;
+  }
+
+  indice =
+    (indice + quantidade + 12) % 12;
+
+  return (
+    NOTAS[indice]
+    +
+    encontrado[3]
+  );
+
+}
+
+
+/* =========================================================
+   TAMANHO DA FONTE
+   ========================================================= */
+
+function alterarFonte(valor){
+
+  tamanhoFonte += valor;
+
+  if(tamanhoFonte < 12)
+    tamanhoFonte = 12;
+
+  if(tamanhoFonte > 32)
+    tamanhoFonte = 32;
+
+  renderizarCifra();
+
+}
+
+
+/* =========================================================
+   MOSTRAR / OCULTAR ACORDES
+   ========================================================= */
+
+function alternarAcordes(){
+
+  mostrarAcordes =
+    !mostrarAcordes;
+
+  renderizarCifra();
+
+}
+
+
+/* =========================================================
+   ROLAGEM AUTOMÁTICA
+   ========================================================= */
+
+function alternarRolagem(){
+
+  if(intervaloRolagem){
+
+    clearInterval(intervaloRolagem);
+
+    intervaloRolagem = null;
+
+    return;
+  }
+
+  intervaloRolagem =
+    setInterval(function(){
+
+      window.scrollBy({
+        top:1,
+        left:0
+      });
+
+      if(
+        window.innerHeight +
+        window.scrollY
+        >=
+        document.body.offsetHeight - 10
+      ){
+
+        clearInterval(
+          intervaloRolagem
+        );
+
+        intervaloRolagem = null;
+      }
+
+    },80);
+
+}
+
+
+/* =========================================================
+   TEMA
+   ========================================================= */
+
+function alternarTema(){
+
+  const atual =
+    getComputedStyle(
+      document.documentElement
+    )
+    .getPropertyValue("--bg")
+    .trim();
+
+  if(atual === "#ffffff"){
+
+    document.documentElement.style
+      .setProperty("--bg","#0d0f12");
+
+    document.documentElement.style
+      .setProperty("--card","#15181d");
+
+    document.documentElement.style
+      .setProperty("--card2","#1c2026");
+
+    document.documentElement.style
+      .setProperty("--text","#f5f5f5");
+
+    document.documentElement.style
+      .setProperty("--muted","#9da4ad");
+
+    document.documentElement.style
+      .setProperty("--border","#2a2f37");
+
+  }else{
+
+    document.documentElement.style
+      .setProperty("--bg","#ffffff");
+
+    document.documentElement.style
+      .setProperty("--card","#f5f5f5");
+
+    document.documentElement.style
+      .setProperty("--card2","#eeeeee");
+
+    document.documentElement.style
+      .setProperty("--text","#151515");
+
+    document.documentElement.style
+      .setProperty("--muted","#666666");
+
+    document.documentElement.style
+      .setProperty("--border","#dddddd");
+
+  }
+
+}
+
+
+/* =========================================================
+   VOLTAR
+   ========================================================= */
+
+function voltarInicio(){
+
+  document.getElementById("viewer")
+    .classList.remove("active");
+
+  document.getElementById("admin")
+    .classList.remove("active");
+
+  document.getElementById("home")
+    .classList.remove("hidden");
+
+  history.replaceState(
+    null,
+    "",
+    location.pathname
+  );
+
+  document.getElementById("campoBusca")
+    .value = "";
+
+  mostrarMusicas(musicas);
+
+}
+
+
+/* =========================================================
+   ADMIN
+   ========================================================= */
+
+function abrirAdmin(){
+
+  document.getElementById("home")
+    .classList.add("hidden");
+
+  document.getElementById("viewer")
+    .classList.remove("active");
+
+  document.getElementById("admin")
+    .classList.add("active");
+
+  carregarAdminLista();
+
+}
+
+
+async function cadastrarMusica(){
+
+  const nome =
+    document.getElementById("nome")
+      .value.trim();
+
+  const artista =
+    document.getElementById("artista")
+      .value.trim();
+
+  const tom =
+    document.getElementById("tom")
+      .value.trim();
+
+  const cifra =
+    document.getElementById("cifra")
+      .value.trim();
+
+  if(!nome){
+
+    mostrarStatus(
+      "Digite o nome da música.",
+      true
+    );
+
+    return;
+  }
+
+  if(!cifra){
+
+    mostrarStatus(
+      "Digite a cifra ou a letra.",
+      true
+    );
+
+    return;
+  }
+
+  mostrarStatus(
+    "Salvando música..."
+  );
 
   try{
 
-    return JSON.parse(
-      localStorage.getItem("cifraverse_favorites")
-    ) || [];
+    const resposta =
+      await fetch(
+        API_URL,
+        {
+          method:"POST",
 
-  }catch{
+          headers:{
+            "apikey":SUPABASE_KEY,
+            "Authorization":
+              "Bearer " + SUPABASE_KEY,
+            "Content-Type":
+              "application/json",
+            "Prefer":
+              "return=representation"
+          },
 
-    return [];
+          body:JSON.stringify({
+
+            nome:nome,
+
+            artista:artista || null,
+
+            tom:tom || null,
+
+            cifra:cifra
+
+          })
+
+        }
+      );
+
+    if(!resposta.ok){
+
+      const erro =
+        await resposta.text();
+
+      throw new Error(erro);
+    }
+
+    mostrarStatus(
+      "Música cadastrada com sucesso!"
+    );
+
+    document.getElementById("nome")
+      .value = "";
+
+    document.getElementById("artista")
+      .value = "";
+
+    document.getElementById("tom")
+      .value = "";
+
+    document.getElementById("cifra")
+      .value = "";
+
+    await carregarMusicas();
+
+  }catch(erro){
+
+    console.error(erro);
+
+    mostrarStatus(
+      "Erro ao cadastrar. Verifique a política INSERT do Supabase.",
+      true
+    );
 
   }
 
 }
 
 
-function saveFavorites(list){
+function mostrarStatus(
+  mensagem,
+  erro=false
+){
 
-  localStorage.setItem(
-    "cifraverse_favorites",
-    JSON.stringify(list)
-  );
+  const elemento =
+    document.getElementById("status");
+
+  elemento.textContent =
+    mensagem;
+
+  elemento.classList.add("show");
 
 }
 
 
-function isFavorite(id){
+/* =========================================================
+   LISTA ADMIN
+   ========================================================= */
 
-  return getFavorites().includes(id);
+function carregarAdminLista(){
 
-}
+  const elemento =
+    document.getElementById("adminLista");
 
+  if(!elemento) return;
 
-function toggleFavorite(){
+  if(!musicas.length){
 
-  if(!state.currentMusic)
+    elemento.innerHTML =
+      '<div class="empty">Nenhuma música cadastrada.</div>';
+
     return;
-
-  const id =
-    state.currentMusic.id;
-
-  let list =
-    getFavorites();
-
-  if(list.includes(id)){
-
-    list =
-      list.filter(x => x !== id);
-
-    showToast("Removida dos favoritos");
-
-  }else{
-
-    list.push(id);
-
-    showToast("Adicionada aos favoritos");
-
   }
 
-  saveFavorites(list);
+  elemento.innerHTML =
+    musicas.map(function(musica){
 
-  updateFavoriteButton();
+      return `
+        <div style="
+          padding:14px 0;
+          border-bottom:1px solid var(--border);
+        ">
 
-  renderHome();
+          <strong>
+            ${escapar(musica.nome || "")}
+          </strong>
+
+          <div style="
+            color:var(--muted);
+            margin:5px 0 10px;
+          ">
+            ${escapar(musica.artista || "")}
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
 
 }
 
 
-function updateFavoriteButton(){
+/* =========================================================
+   SEGURANÇA BÁSICA DO HTML
+   ========================================================= */
 
-  if(!state.currentMusic)
-    return;
+function escapar(texto){
 
-  if(isFavorite(state.currentMusic.id)){
-
-    favoriteBtn.textContent =
-      "♥ Favorito";
-
-    favoriteBtn.classList.add("active");
-
-  }else{
-
-    favoriteBtn.textContent =
-      "♡ Favoritar";
-
-    favoriteBtn.classList.remove("active");
-
-  }
-
-}
-
-
-/* ==========================================
-   ESCAPE HTML
-========================================== */
-
-function escapeHtml(text){
-
-  return String(text)
-
+  return String(texto)
     .replace(/&/g,"&amp;")
-
     .replace(/</g,"&lt;")
-
     .replace(/>/g,"&gt;")
-
     .replace(/"/g,"&quot;")
-
     .replace(/'/g,"&#039;");
 
 }
 
 
-/* ==========================================
-   ACORDES
-========================================== */
+function escaparJS(texto){
 
-const SHARP = [
-  "C","C#","D","D#","E","F",
-  "F#","G","G#","A","A#","B"
-];
-
-const FLAT = [
-  "C","Db","D","Eb","E","F",
-  "Gb","G","Ab","A","Bb","B"
-];
-
-
-const CHORD_TOKEN =
-/^[A-G](#|b)?(maj7|maj|min7|min|dim7|dim|aug|sus2|sus4|sus|add\d{1,2}|m7b5|m7|m9|m6|m|[0-9]{1,2})*(\/[A-G](#|b)?)?$/i;
-
-
-const BRACKET_CHORD =
-/\[[A-G](#|b)?(maj7|maj|min7|min|dim7|dim|aug|sus2|sus4|sus|add\d{1,2}|m7b5|m7|m9|m6|m|[0-9]{1,2})*(\/[A-G](#|b)?)?\]/;
-
-
-const BRACKET_CHORD_G =
-new RegExp(
-  BRACKET_CHORD.source,
-  "g"
-);
-
-
-function noteIndex(note){
-
-  let i =
-    SHARP.indexOf(note);
-
-  if(i >= 0)
-    return i;
-
-  return FLAT.indexOf(note);
+  return String(texto)
+    .replace(/\\/g,"\\\\")
+    .replace(/'/g,"\\'")
+    .replace(/"/g,"&quot;");
 
 }
 
-
-function transposeNote(
-  note,
-  steps,
-  preferFlat
-){
-
-  const idx =
-    noteIndex(note);
-
-  if(idx < 0)
-    return note;
-
-  let n =
-    (idx + steps) % 12;
-
-  if(n < 0)
-    n += 12;
-
-  return preferFlat
-    ? FLAT[n]
-    : SHARP[n];
-
-}
-
-
-function transposeChordToken(
-  token,
-  steps
-){
-
-  if(steps === 0)
-    return token;
-
-  if(token.includes("/")){
-
-    const parts =
-      token.split("/");
-
-    return (
-      transposeChordToken(parts[0],steps)
-      + "/"
-      +
-      transposeChordToken(parts[1],steps)
-    );
-
-  }
-
-  const match =
-    token.match(/^([A-G])(#|b)?/);
-
-  if(!match)
-    return token;
-
-  const root =
-    match[1] + (match[2] || "");
-
-  const rest =
-    token.slice(root.length);
-
-  const preferFlat =
-    match[2] === "b";
-
-  const newRoot =
-    transposeNote(
-      root,
-      steps,
-      preferFlat
-    );
-
-  return newRoot + rest;
-
-}
-
-
-/* ==========================================
-   DETECTAR LINHA DE ACORDES
-========================================== */
-
-function isChordLine(line){
-
-  const trimmed =
-    line.trim();
-
-  if(!trimmed)
-    return false;
-
-  const tokens =
-    trimmed.split(/\s+/);
-
-  let count = 0;
-
-  for(const token of tokens){
-
-    if(CHORD_TOKEN.test(token))
-      count++;
-
-  }
-
-  return (
-    count / tokens.length
-  ) >= .8;
-
-}
-
-
-/* ==========================================
-   SEÇÕES
-========================================== */
-
-function isSectionLabel(trimmed){
-
-  if(BRACKET_CHORD.test(trimmed))
-    return false;
-
-  if(
-    /^[\[\(].+[\]\)]:?$/.test(trimmed)
-  )
-    return true;
-
-  if(
-    /^[A-Za-zÀ-ÿ0-9 ]{1,28}:$/.test(trimmed)
-    &&
-    !isChordLine(trimmed)
-  )
-    return true;
-
-  return false;
-
-}
-
-
-/* ==========================================
-   RENDERIZAR CIFRA
-========================================== */
-
-function renderSong(){
-
-  if(!state.currentMusic)
-    return;
-
-  const text =
-    state.currentMusic.lyrics || "";
-
-  const inline =
-    BRACKET_CHORD.test(text);
-
-  const lines =
-    text.split("\n");
-
-  let html = "";
-
-  for(let line of lines){
-
-    const trimmed =
-      line.trim();
-
-
-    if(trimmed === ""){
-
-      html +=
-        '<div class="blank"></div>';
-
-      continue;
-
-    }
-
-
-    if(isSectionLabel(trimmed)){
-
-      html +=
-        '<div class="section">'
-        +
-        escapeHtml(trimmed)
-        +
-        '</div>';
-
-      continue;
-
-    }
-
-
-    if(inline){
-
-      const escaped =
-        escapeHtml(line);
-
-      if(state.showChords){
-
-        const output =
-          escaped.replace(
-            BRACKET_CHORD_G,
-            function(match){
-
-              const chord =
-                match.slice(1,-1);
-
-              const transposed =
-                transposeChordToken(
-                  chord,
-                  state.steps
-                );
-
-              return (
-                '<span class="chord">'
-                +
-                escapeHtml(transposed)
-                +
-                '</span>'
-              );
-
-            }
-          );
-
-        html +=
-          '<div class="lyricline">'
-          +
-          output
-          +
-          '</div>';
-
-      }else{
-
-        const stripped =
-          escaped.replace(
-            BRACKET_CHORD_G,
-            ""
-          );
-
-        html +=
-          '<div class="lyricline">'
-          +
-          stripped
-          +
-          '</div>';
-
-      }
-
-    }else{
-
-      if(isChordLine(line)){
-
-        if(state.showChords){
-
-          const transposed =
-            line.replace(
-              /\S+/g,
-              function(token){
-
-                return transposeChordToken(
-                  token,
-                  state.steps
-                );
-
-              }
-            );
-
-          html +=
-            '<div class="chordline">'
-            +
-            escapeHtml(transposed)
-            +
-            '</div>';
-
-        }
-
-      }else{
-
-        html +=
-          '<div class="lyricline">'
-          +
-          escapeHtml(line)
-          +
-          '</div>';
-
-      }
-
-    }
-
-  }
-
-  viewer.innerHTML =
-    html;
-
-}
-
-
-/* ==========================================
-   HOME / BUSCA
-========================================== */
-
-function renderHome(
-  query = ""
-){
-
-  const q =
-    query.trim().toLowerCase();
-
-  let filtered =
-    musics.filter(m => {
-
-      return (
-        m.title.toLowerCase().includes(q)
-        ||
-        m.artist.toLowerCase().includes(q)
-      );
-
-    });
-
-
-  document.getElementById(
-    "musicCount"
-  ).textContent =
-    filtered.length
-    +
-    (
-      filtered.length === 1
-      ? " música"
-      : " músicas"
-    );
-
-
-  const title =
-    document.getElementById(
-      "listTitle"
-    );
-
-  title.textContent =
-    q
-      ? "Resultados"
-      : "Músicas";
-
-
-  if(!filtered.length){
-
-    musicGrid.innerHTML =
-      `
-      <div class="empty">
-        Nenhuma música encontrada.
-        <br><br>
-        Tente pesquisar outro nome.
-      </div>
-      `;
-
-    return;
-
-  }
-
-
-  musicGrid.innerHTML =
-    filtered.map(m => {
-
-      const fav =
-        isFavorite(m.id);
-
-      return `
-        <div
-          class="music-card"
-          data-id="${escapeHtml(m.id)}">
-
-          <h4>
-            ${escapeHtml(m.title)}
-          </h4>
-
-          <p>
-            ${escapeHtml(m.artist)}
-          </p>
-
-          <div class="card-bottom">
-
-            <span class="tom">
-              ${escapeHtml(m.key || "")}
-            </span>
-
-            <span class="open-link">
-              ${fav ? "♥ " : ""}
-              Abrir →
-            </span>
-
-          </div>
-
-        </div>
-      `;
-
-    }).join("");
-
-
-  document
-    .querySelectorAll(".music-card")
-    .forEach(card => {
-
-      card.addEventListener(
-        "click",
-        () => {
-
-          openSong(
-            card.dataset.id
-          );
-
-        }
-      );
-
-    });
-
-}
-
-
-/* ==========================================
-   ABRIR MÚSICA
-========================================== */
-
-function openSong(id){
-
-  const music =
-    musics.find(
-      m => m.id === id
-    );
-
-  if(!music)
-    return;
-
-  state.currentMusic =
-    music;
-
-  state.steps = 0;
-
-  state.fontSize = 19;
-
-  state.showChords = true;
-
-  state.autoscroll = false;
-
-  stopAutoscroll();
-
-
-  home.classList.add("hidden");
-
-  admin.classList.add("hidden");
-
-  songView.classList.remove("hidden");
-
-
-  songTitle.textContent =
-    music.title;
-
-  songArtist.textContent =
-    music.artist
-    +
-    (
-      music.key
-      ? " • Tom: " + music.key
-      : ""
-    );
-
-
-  applyFont();
-
-  updateTransLabel();
-
-  chordBtn.classList.add("active");
-
-  chordBtn.textContent =
-    "Cifra visível";
-
-  scrollBtn.classList.remove("active");
-
-  scrollBtn.textContent =
-    "Rolagem auto";
-
-  speedRow.classList.add("hidden");
-
-  updateFavoriteButton();
-
-  renderSong();
-
-  window.scrollTo({
-    top:0,
-    behavior:"instant"
-  });
-
-
-  updateURL(music.id);
-
-}
-
-
-/* ==========================================
-   URL
-========================================== */
-
-function slugify(text){
-
-  return text
-
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g,"")
-
-    .toLowerCase()
-
-    .replace(/[^a-z0-9]+/g,"-")
-
-    .replace(/^-+|-+$/g,"");
-
-}
-
-
-function updateURL(id){
-
-  const url =
-    window.location.pathname
-    +
-    "?musica="
-    +
-    encodeURIComponent(id);
-
-  history.pushState(
-    {music:id},
-    "",
-    url
-  );
-
-}
-
-
-/* ==========================================
-   VOLTAR
-========================================== */
-
-function goHome(){
-
-  stopAutoscroll();
-
-  state.currentMusic =
-    null;
-
-  songView.classList.add("hidden");
-
-  admin.classList.add("hidden");
-
-  home.classList.remove("hidden");
-
-  history.pushState(
-    {},
-    "",
-    window.location.pathname
-  );
-
-  renderHome(
-    searchInput.value
-  );
-
-}
-
-
-/* ==========================================
-   TRANSPOSIÇÃO
-========================================== */
-
-document
-.getElementById("transUp")
-.addEventListener(
-  "click",
-  function(){
-
-    state.steps++;
-
-    updateTransLabel();
-
-    renderSong();
-
-  }
-);
-
-
-document
-.getElementById("transDown")
-.addEventListener(
-  "click",
-  function(){
-
-    state.steps--;
-
-    updateTransLabel();
-
-    renderSong();
-
-  }
-);
-
-
-function updateTransLabel(){
-
-  if(state.steps === 0){
-
-    transLabel.textContent =
-      "Tom orig.";
-
-  }else{
-
-    transLabel.textContent =
-      (state.steps > 0 ? "+" : "")
-      +
-      state.steps;
-
-  }
-
-}
-
-
-/* ==========================================
-   FONTE
-========================================== */
-
-document
-.getElementById("fontUp")
-.addEventListener(
-  "click",
-  function(){
-
-    state.fontSize =
-      Math.min(
-        32,
-        state.fontSize + 1
-      );
-
-    applyFont();
-
-  }
-);
-
-
-document
-.getElementById("fontDown")
-.addEventListener(
-  "click",
-  function(){
-
-    state.fontSize =
-      Math.max(
-        12,
-        state.fontSize - 1
-      );
-
-    applyFont();
-
-  }
-);
-
-
-function applyFont(){
-
-  document.documentElement
-    .style
-    .setProperty(
-      "--font-size",
-      state.fontSize + "px"
-    );
-
-  fontLabel.textContent =
-    state.fontSize + "px";
-
-}
-
-
-/* ==========================================
-   MOSTRAR ACORDES
-========================================== */
-
-chordBtn.addEventListener(
-  "click",
-  function(){
-
-    state.showChords =
-      !state.showChords;
-
-    chordBtn.classList.toggle(
-      "active",
-      state.showChords
-    );
-
-    chordBtn.textContent =
-      state.showChords
-        ? "Cifra visível"
-        : "Só letra";
-
-    renderSong();
-
-  }
-);
-
-
-/* ==========================================
-   ROLAGEM
-========================================== */
-
-function startAutoscroll(){
-
-  stopAutoscroll();
-
-  scrollTimer =
-    setInterval(
-      function(){
-
-        viewer.scrollTop +=
-          state.scrollSpeed * .6;
-
-      },
-      30
-    );
-
-}
-
-
-function stopAutoscroll(){
-
-  if(scrollTimer){
-
-    clearInterval(
-      scrollTimer
-    );
-
-    scrollTimer = null;
-
-  }
-
-}
-
-
-scrollBtn.addEventListener(
-  "click",
-  function(){
-
-    state.autoscroll =
-      !state.autoscroll;
-
-    scrollBtn.classList.toggle(
-      "active",
-      state.autoscroll
-    );
-
-    scrollBtn.textContent =
-      state.autoscroll
-        ? "Parar rolagem"
-        : "Rolagem auto";
-
-    speedRow.classList.toggle(
-      "hidden",
-      !state.autoscroll
-    );
-
-
-    if(state.autoscroll){
-
-      startAutoscroll();
-
-    }else{
-
-      stopAutoscroll();
-
-    }
-
-  }
-);
-
-
-document
-.getElementById("scrollSpeed")
-.addEventListener(
-  "input",
-  function(){
-
-    state.scrollSpeed =
-      Number(this.value);
-
-  }
-);
-
-
-viewer.addEventListener(
-  "touchstart",
-  function(){
-
-    if(state.autoscroll)
-      stopAutoscroll();
-
-  }
-);
-
-
-viewer.addEventListener(
-  "touchend",
-  function(){
-
-    if(state.autoscroll){
-
-      setTimeout(
-        startAutoscroll,
-        1200
-      );
-
-    }
-
-  }
-);
-
-
-/* ==========================================
-   TEMA
-========================================== */
-
-document
-.getElementById("themeBtn")
-.addEventListener(
-  "click",
-  function(){
-
-    state.light =
-      !state.light;
-
-    document.body
-      .classList
-      .toggle(
-        "light",
-        state.light
-      );
-
-    this.textContent =
-      state.light
-        ? "☾"
-        : "☀";
-
-  }
-);
-
-
-/* ==========================================
-   FAVORITO
-========================================== */
-
-favoriteBtn.addEventListener(
-  "click",
-  toggleFavorite
-);
-
-
-/* ==========================================
-   BUSCA
-========================================== */
-
-function doSearch(){
-
-  const q =
-    searchInput.value;
-
-  home.classList.remove(
-    "hidden"
-  );
-
-  songView.classList.add(
-    "hidden"
-  );
-
-  admin.classList.add(
-    "hidden"
-  );
-
-  renderHome(q);
-
-}
-
-
-document
-.getElementById("searchBtn")
-.addEventListener(
-  "click",
-  doSearch
-);
-
-
-searchInput.addEventListener(
-  "keydown",
-  function(e){
-
-    if(e.key === "Enter")
-      doSearch();
-
-  }
-);
-
-
-searchInput.addEventListener(
-  "input",
-  function(){
-
-    renderHome(
-      this.value
-    );
-
-  }
-);
-
-
-/* ==========================================
-   ADMIN
-========================================== */
-
-function openAdmin(){
-
-  home.classList.add("hidden");
-
-  songView.classList.add("hidden");
-
-  admin.classList.remove("hidden");
-
-  renderAdminList();
-
-  history.pushState(
-    {admin:true},
-    "",
-    window.location.pathname
-    + "?admin=1"
-  );
-
-}
-
-
-function closeAdmin(){
-
-  admin.classList.add(
-    "hidden"
-  );
-
-  home.classList.remove(
-    "hidden"
-  );
-
-  renderHome();
-
-  history.pushState(
-    {},
-    "",
-    window.location.pathname
-  );
-
-}
-
-
-document
-.getElementById("adminBtn")
-.addEventListener(
-  "click",
-  openAdmin
-);
-
-
-document
-.getElementById("adminBack")
-.addEventListener(
-  "click",
-  closeAdmin
-);
-
-
-/* ==========================================
-   CADASTRAR MÚSICA
-========================================== */
-
-document
-.getElementById("saveMusic")
-.addEventListener(
-  "click",
-  function(){
-
-    const title =
-      document
-      .getElementById("newTitle")
-      .value.trim();
-
-    const artist =
-      document
-      .getElementById("newArtist")
-      .value.trim();
-
-    const key =
-      document
-      .getElementById("newKey")
-      .value.trim();
-
-    const lyrics =
-      document
-      .getElementById("newLyrics")
-      .value.trim();
-
-
-    if(!title){
-
-      showToast(
-        "Digite o nome da música."
-      );
-
-      return;
-
-    }
-
-
-    if(!artist){
-
-      showToast(
-        "Digite o artista."
-      );
-
-      return;
-
-    }
-
-
-    if(!lyrics){
-
-      showToast(
-        "Cole a cifra da música."
-      );
-
-      return;
-
-    }
-
-
-    const id =
-      slugify(title)
-      +
-      "-"
-      +
-      Date.now();
-
-
-    musics.unshift({
-
-      id:id,
-
-      title:title,
-
-      artist:artist,
-
-      key:key,
-
-      lyrics:lyrics
-
-    });
-
-
-    saveMusics();
-
-    clearForm();
-
-    renderAdminList();
-
-    renderHome();
-
-    showToast(
-      "Música cadastrada com sucesso!"
-    );
-
-  }
-);
-
-
-/* ==========================================
-   LIMPAR FORMULÁRIO
-========================================== */
-
-function clearForm(){
-
-  document
-    .getElementById("newTitle")
-    .value = "";
-
-  document
-    .getElementById("newArtist")
-    .value = "";
-
-  document
-    .getElementById("newKey")
-    .value = "";
-
-  document
-    .getElementById("newLyrics")
-    .value = "";
-
-}
-
-
-document
-.getElementById("clearForm")
-.addEventListener(
-  "click",
-  clearForm
-);
-
-
-/* ==========================================
-   LISTA ADMIN
-========================================== */
-
-function renderAdminList(){
-
-  const list =
-    document.getElementById(
-      "adminMusicList"
-    );
-
-
-  if(!musics.length){
-
-    list.innerHTML =
-      `
-      <div class="empty">
-        Nenhuma música cadastrada.
-      </div>
-      `;
-
-    return;
-
-  }
-
-
-  list.innerHTML =
-    musics.map(m => {
-
-      return `
-        <div class="admin-item">
-
-          <div class="admin-item-info">
-
-            <strong>
-              ${escapeHtml(m.title)}
-            </strong>
-
-            <small>
-              ${escapeHtml(m.artist)}
-              ${m.key
-                ? " • " + escapeHtml(m.key)
-                : ""}
-            </small>
-
-          </div>
-
-          <button
-            class="danger"
-            data-delete="${escapeHtml(m.id)}">
-            Excluir
-          </button>
-
-        </div>
-      `;
-
-    }).join("");
-
-
-  list
-    .querySelectorAll(
-      "[data-delete]"
-    )
-    .forEach(button => {
-
-      button.addEventListener(
-        "click",
-        function(){
-
-          const id =
-            this.dataset.delete;
-
-          const music =
-            musics.find(
-              m => m.id === id
-            );
-
-          if(!music)
-            return;
-
-
-          const ok =
-            confirm(
-              'Excluir "' +
-              music.title +
-              '"?'
-            );
-
-          if(!ok)
-            return;
-
-
-          musics =
-            musics.filter(
-              m => m.id !== id
-            );
-
-          saveMusics();
-
-          renderAdminList();
-
-          renderHome();
-
-          showToast(
-            "Música excluída."
-          );
-
-        }
-      );
-
-    });
-
-}
-
-
-/* ==========================================
-   TOAST
-========================================== */
-
-let toastTimer = null;
-
-function showToast(message){
-
-  toast.textContent =
-    message;
-
-  toast.classList.add(
-    "show"
-  );
-
-  clearTimeout(
-    toastTimer
-  );
-
-  toastTimer =
-    setTimeout(
-      function(){
-
-        toast.classList.remove(
-          "show"
-        );
-
-      },
-      2500
-    );
-
-}
-
-
-/* ==========================================
-   NAVEGAÇÃO DO HISTÓRICO
-========================================== */
-
-window.addEventListener(
-  "popstate",
-  function(){
-
-    initializeRoute();
-
-  }
-);
-
-
-/* ==========================================
-   ROTAS
-========================================== */
-
-function initializeRoute(){
-
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
-
-
-  const musicId =
-    params.get("musica");
-
-  const adminMode =
-    params.get("admin");
-
-
-  if(adminMode === "1"){
-
-    openAdmin();
-
-    return;
-
-  }
-
-
-  if(musicId){
-
-    const music =
-      musics.find(
-        m => m.id === musicId
-      );
-
-    if(music){
-
-      state.currentMusic =
-        music;
-
-      openSongWithoutHistory(
-        music.id
-      );
-
-      return;
-
-    }
-
-  }
-
-
-  home.classList.remove(
-    "hidden"
-  );
-
-  songView.classList.add(
-    "hidden"
-  );
-
-  admin.classList.add(
-    "hidden"
-  );
-
-  renderHome();
-
-}
-
-
-function openSongWithoutHistory(id){
-
-  const music =
-    musics.find(
-      m => m.id === id
-    );
-
-  if(!music)
-    return;
-
-  state.currentMusic =
-    music;
-
-  state.steps = 0;
-
-  state.fontSize = 19;
-
-  state.showChords = true;
-
-  state.autoscroll = false;
-
-  stopAutoscroll();
-
-
-  home.classList.add(
-    "hidden"
-  );
-
-  admin.classList.add(
-    "hidden"
-  );
-
-  songView.classList.remove(
-    "hidden"
-  );
-
-
-  songTitle.textContent =
-    music.title;
-
-  songArtist.textContent =
-    music.artist
-    +
-    (
-      music.key
-      ? " • Tom: " + music.key
-      : ""
-    );
-
-
-  applyFont();
-
-  updateTransLabel();
-
-  chordBtn.classList.add(
-    "active"
-  );
-
-  chordBtn.textContent =
-    "Cifra visível";
-
-  scrollBtn.classList.remove(
-    "active"
-  );
-
-  scrollBtn.textContent =
-    "Rolagem auto";
-
-  speedRow.classList.add(
-    "hidden"
-  );
-
-  updateFavoriteButton();
-
-  renderSong();
-
-}
-
-
-/* ==========================================
-   BOTÃO VOLTAR
-========================================== */
-
-document
-.getElementById("backBtn")
-.addEventListener(
-  "click",
-  goHome
-);
-
-
-/* ==========================================
-   INICIALIZAÇÃO
-========================================== */
-
-renderHome();
-
-initializeRoute();
-
-
-})();
 </script>
 
 </body>
